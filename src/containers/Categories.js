@@ -1,10 +1,8 @@
-import { connect } from "react-redux";
-import { actionGetListCategories, actionCreateCategory } from "../store/actions/CategoriesAction";
-import { Component } from "react";
-import PropTypes from 'prop-types';
-import { Table } from 'react-bootstrap';
-import { FaEdit, FaTrash, FaBan } from 'react-icons/fa';
-import { Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import * as CategoryActions from "../store/actions/CategoryActions";
+import { Table, Button } from 'react-bootstrap';
+import { FaEdit, FaTrash, FaToggleOn, FaToggleOff } from 'react-icons/fa';
 import {
     MDBBtn,
     MDBModal,
@@ -17,77 +15,35 @@ import {
     MDBInput,
 } from 'mdb-react-ui-kit';
 
-class Categories extends Component {
-    // init state
-    constructor(props) {
-        super(props);
-        this.state = {
-            isShowCreate: false,
-            isCreating: false,
-            category: {
-                id: null,
-                categoryName: ''
-            }
-        }
-        this.toggleOpenCreate = this.toggleOpenCreate.bind(this);
-        this.handleChangeCategoryName = this.handleChangeCategoryName.bind(this);
-        this.handleCreateCategory = this.handleCreateCategory.bind(this)
-    }
+const Categories = () => {
+    const dispatch = useDispatch();
+    const categories = useSelector(state => state.categories.categories);
 
-    getCategories() {
-        this.props.actionGetListCategories();
-    }
+    const [isShowCreate, setIsShowCreate] = useState(false);
+    const [categoryName, setCategoryName] = useState('');
 
-    componentDidMount() {
-        this.props.actionGetListCategories()
-    }
+    useEffect(() => {
+        dispatch(CategoryActions.getCategoriesRequest());
+    }, [dispatch]);
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.isCreating && this.state.isCreating) {
-            this.getCategories()
-        }
-    }
+    const toggleOpenCreate = () => {
+        setIsShowCreate(!isShowCreate);
+        setCategoryName(''); // Clear input after closing the modal
+    };
 
-    toggleOpenCreate() {
-        this.setState(prevState => ({
-            ...prevState,
-            isCreating: !prevState.isCreating,
-            isShowCreate: !prevState.isShowCreate
-        }));
-    }
+    const handleChangeCategoryName = (e) => {
+        setCategoryName(e.target.value);
+    };
 
-    handleChangeCategoryName(categoryName) {
-        this.setState(prevState => ({
-            ...prevState,
-            category: {
-                ...prevState.category,
-                name: categoryName
-            }
-        }))
-    }
+    // const handleCreateCategory = () => {
+    //     dispatch(CategoryActions.createCategoryRequest(categoryName));
+    //     toggleOpenCreate(); // Optionally close modal after creation
+    // };
 
-    handleCreateCategory() {
-        console.log("create category with name ", this.state.category.name)
-        this.props.actionCreateCategory(this.state.category.name);
-
-        this.toggleOpenCreate();
-
-        this.setState(prevState => ({
-            ...prevState,
-            isCreating: false,
-            category: {
-                ...prevState.category,
-                name: ''
-            }
-        }));
-
-        // this.getCategories();
-    }
-
-    render() {
-        return <div>
+    return (
+        <div>
             <div className="d-flex justify-content-end mb-4">
-                <Button variant="primary" onClick={() => this.toggleOpenCreate()}>+Add Category</Button>
+                <Button variant="primary" onClick={toggleOpenCreate}>+ Add Category</Button>
             </div>
             <Table striped bordered hover>
                 <thead>
@@ -99,70 +55,54 @@ class Categories extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.categories.categories && this.props.categories.categories.map((category) => (
+                    {categories && categories.map((category) => (
                         <tr key={category?.id}>
                             <td>{category?.id}</td>
                             <td>{category?.categoryName}</td>
-                            <td style={{ color: category.status ? 'blue' : 'red' }}>
-                                {category?.status ? "Active" : "Inactive"}</td>
+                            <td style={{ color: category?.status ? 'blue' : 'red' }}>
+                                {category?.status ? "Active" : "Inactive"}
+                            </td>
                             <td>
                                 <FaEdit style={{ color: 'grey', cursor: 'pointer', marginRight: '10px' }} onClick={() => { }} />
-                                <FaTrash style={{ color: 'red', cursor: 'pointer', marginRight: '10px' }} onClick={() => { }} />
-                                <FaBan style={{ color: category?.status === "Active" ? 'grey' : 'blue', cursor: 'pointer' }} onClick={() => { }} />
+                                <FaTrash style={{ color: 'red', cursor: 'pointer' }} onClick={() => dispatch(CategoryActions.deleteCategoryRequest(category.id))}/>
+                                {category?.status ? (
+                                  <FaToggleOn onClick={() => dispatch(CategoryActions.toggleCategoryStatusRequest(category.id))} style={{ cursor: 'pointer', color: 'green', fontSize: '24px' }} />
+                                ) : (
+                                  <FaToggleOff onClick={() => dispatch(CategoryActions.toggleCategoryStatusRequest(category.id))} style={{ cursor: 'pointer', color: 'grey', fontSize: '24px' }} />
+                                )}
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
 
-
-            <MDBModal open={this.state.isShowCreate} tabIndex='-1'>
+            <MDBModal open={isShowCreate} tabIndex='-1'>
                 <MDBModalDialog>
                     <MDBModalContent>
                         <MDBModalHeader>
                             <MDBModalTitle>Create category</MDBModalTitle>
-                            <MDBBtn className='btn-close' color='none' onClick={this.toggleOpenCreate}></MDBBtn>
+                            <MDBBtn className='btn-close' color='none' onClick={toggleOpenCreate}></MDBBtn>
                         </MDBModalHeader>
                         <MDBModalBody>
                             <MDBInput
                                 label='Category name'
                                 id='categoryName'
                                 type='text'
-                                aria-describedby='categoryName'
-                                onChange={(e) => this.handleChangeCategoryName(e.target.value)} />
+                                value={categoryName}
+                                onChange={handleChangeCategoryName} />
                         </MDBModalBody>
 
                         <MDBModalFooter>
-                            <MDBBtn color='secondary' onClick={this.toggleOpenCreate}>
+                            <MDBBtn color='secondary' onClick={toggleOpenCreate}>
                                 Close
                             </MDBBtn>
-                            <MDBBtn onClick={this.handleCreateCategory}>Create</MDBBtn>
+                            {/* <MDBBtn onClick={handleCreateCategory}>Create</MDBBtn> */}
                         </MDBModalFooter>
                     </MDBModalContent>
                 </MDBModalDialog>
             </MDBModal>
         </div>
-    }
-}
-
-const mapDispatchToProps = (dispatch, props) => {
-    return {
-        actionGetListCategories: payload => {
-            dispatch(actionGetListCategories(payload));
-        },
-        actionCreateCategory: payload => {
-            dispatch(actionCreateCategory(payload));
-        }
-    };
-};
-const mapStateToProps = state => {
-    return {
-        categories: state.categories
-    };
+    );
 };
 
-Categories.propTypes = {
-    dispatch: PropTypes.func
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Categories);
+export default Categories;

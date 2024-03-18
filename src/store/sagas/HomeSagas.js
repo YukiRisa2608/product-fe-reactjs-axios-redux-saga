@@ -1,7 +1,7 @@
 import { put, call } from 'redux-saga/effects';
 // import { getDemo } from '../api';
 import * as types from '../types/HomeType';
-import { getLike } from '../../api/HomeService';
+import { getLike } from '../../api/HomeServices';
 
 const errorData = {like: 10000}
 export function* getLikeSaga({ payload }) {

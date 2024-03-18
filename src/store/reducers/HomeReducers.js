@@ -1,4 +1,4 @@
-import * as types from "../types/HomeType";
+import * as types from "../types/HomeTypes";
 
 const INITIAL_STATE = {
     like: 0,
