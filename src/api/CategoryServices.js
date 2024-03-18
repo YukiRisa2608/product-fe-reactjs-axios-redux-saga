@@ -7,11 +7,11 @@ export const getList = async (params) => {
 };
 
 //add
-export const create = async (categoryName) => {
-    let response = await instance.post("admin/categories", {categoryName});
-    console.log("create", response)
-    return response.data
+export const addCategory = async (categoryName) => {
+    const response = await instance.post('/admin/categories', { categoryName });
+    return response.data;
 };
+
 
 //delete
 export const deleteCategory = async (categoryId) => {
@@ -22,5 +22,11 @@ export const deleteCategory = async (categoryId) => {
 //toggle
 export const toggleCategoryStatus = async (categoryId) => {
     const response = await instance.post(`/admin/categories/toggle-status/${categoryId}`);
+    return response.data;
+};
+
+//edit
+export const updateCategory = async (categoryId, categoryName) => {
+    const response = await instance.put(`/admin/categories/${categoryId}`, { categoryName });
     return response.data;
 };

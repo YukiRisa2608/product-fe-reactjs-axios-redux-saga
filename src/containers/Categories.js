@@ -19,26 +19,65 @@ const Categories = () => {
     const dispatch = useDispatch();
     const categories = useSelector(state => state.categories.categories);
 
+    //const add
     const [isShowCreate, setIsShowCreate] = useState(false);
     const [categoryName, setCategoryName] = useState('');
+
+    //const edit
+    const [isShowEdit, setIsShowEdit] = useState(false);
+    const [editCategoryName, setEditCategoryName] = useState('');
+    const [editCategoryId, setEditCategoryId] = useState(null);
+    
 
     useEffect(() => {
         dispatch(CategoryActions.getCategoriesRequest());
     }, [dispatch]);
 
+    //open / close modal add
     const toggleOpenCreate = () => {
         setIsShowCreate(!isShowCreate);
         setCategoryName(''); // Clear input after closing the modal
     };
 
+    //handle add
+    const handleCreateCategory = () => {
+        if (categoryName.trim()) {
+            dispatch(CategoryActions.addCategoryRequest(categoryName.trim()));
+            toggleOpenCreate();
+        } else {
+            console.log("Please enter a valid category name.");
+        }
+    };
+    //handle change name value
     const handleChangeCategoryName = (e) => {
         setCategoryName(e.target.value);
     };
+    
+    //open edit
+    const openEditModal = (category) => {
+        setEditCategoryId(category.id);
+        setEditCategoryName(category.categoryName);
+        setIsShowEdit(true);
+    };
 
-    // const handleCreateCategory = () => {
-    //     dispatch(CategoryActions.createCategoryRequest(categoryName));
-    //     toggleOpenCreate(); // Optionally close modal after creation
-    // };
+    //close edit
+    const closeEditModal = () => {
+        setIsShowEdit(false);
+        setEditCategoryName('');
+        setEditCategoryId(null);
+    };
+
+    //handle edit
+    const handleEditCategory = () => {
+    if (editCategoryName.trim()) {
+        dispatch(CategoryActions.editCategoryRequest(editCategoryId, editCategoryName.trim()));
+        closeEditModal();
+    } else {
+        console.log("Please enter a valid category name.");
+    }
+};
+
+    
 
     return (
         <div>
@@ -63,44 +102,80 @@ const Categories = () => {
                                 {category?.status ? "Active" : "Inactive"}
                             </td>
                             <td>
-                                <FaEdit style={{ color: 'grey', cursor: 'pointer', marginRight: '10px' }} onClick={() => { }} />
-                                <FaTrash style={{ color: 'red', cursor: 'pointer' }} onClick={() => dispatch(CategoryActions.deleteCategoryRequest(category.id))}/>
-                                {category?.status ? (
-                                  <FaToggleOn onClick={() => dispatch(CategoryActions.toggleCategoryStatusRequest(category.id))} style={{ cursor: 'pointer', color: 'green', fontSize: '24px' }} />
-                                ) : (
-                                  <FaToggleOff onClick={() => dispatch(CategoryActions.toggleCategoryStatusRequest(category.id))} style={{ cursor: 'pointer', color: 'grey', fontSize: '24px' }} />
-                                )}
+                            {category?.status ? (
+                                // toggle icon
+                                <FaToggleOn onClick={() => dispatch(CategoryActions.toggleCategoryStatusRequest(category.id))} style={{ cursor: 'pointer', color: 'blue', fontSize: '24px' }} />) : (
+                                <FaToggleOff onClick={() => dispatch(CategoryActions.toggleCategoryStatusRequest(category.id))} style={{ cursor: 'pointer', color: 'grey', fontSize: '24px', marginLeft: '6px' }} />)}
+                                {/* edit icon */}
+                                <FaEdit style={{color: 'green', cursor: 'pointer', fontSize: '18px', marginLeft: '8px'}}onClick={() => openEditModal(category)}/>
+                                {/* delete icon */}
+                                <FaTrash style={{ color: 'red', cursor: 'pointer', marginLeft: '8px' }} onClick={() => dispatch(CategoryActions.deleteCategoryRequest(category.id))}/>
+                                
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
 
+{/* modal add*/}
             <MDBModal open={isShowCreate} tabIndex='-1'>
                 <MDBModalDialog>
                     <MDBModalContent>
                         <MDBModalHeader>
-                            <MDBModalTitle>Create category</MDBModalTitle>
+                            <MDBModalTitle>Save category</MDBModalTitle>
                             <MDBBtn className='btn-close' color='none' onClick={toggleOpenCreate}></MDBBtn>
                         </MDBModalHeader>
                         <MDBModalBody>
-                            <MDBInput
-                                label='Category name'
-                                id='categoryName'
-                                type='text'
-                                value={categoryName}
-                                onChange={handleChangeCategoryName} />
+
+                        <MDBInput
+                            label="Category name"
+                            id="addCategoryName"
+                            type="text"
+                            value={categoryName}
+                            onChange={handleChangeCategoryName}/>
                         </MDBModalBody>
 
                         <MDBModalFooter>
                             <MDBBtn color='secondary' onClick={toggleOpenCreate}>
                                 Close
                             </MDBBtn>
-                            {/* <MDBBtn onClick={handleCreateCategory}>Create</MDBBtn> */}
+                            <MDBBtn onClick={handleCreateCategory}>
+                                Add Category
+                            </MDBBtn>
                         </MDBModalFooter>
                     </MDBModalContent>
                 </MDBModalDialog>
             </MDBModal>
+
+{/* modal edit  */}
+            <MDBModal open={isShowEdit} tabIndex='-1'>
+                <MDBModalDialog>
+                    <MDBModalContent>
+                        <MDBModalHeader>
+                            <MDBModalTitle>Edit Category</MDBModalTitle>
+                            <MDBBtn className='btn-close' color='none' onClick={closeEditModal}></MDBBtn>
+                        </MDBModalHeader>
+                        <MDBModalBody>
+                            <MDBInput
+                                label="Category name"
+                                id="editCategoryName"
+                                type="text"
+                                value={editCategoryName}
+                                onChange={(e) => setEditCategoryName(e.target.value)}
+                            />
+                        </MDBModalBody>
+                        <MDBModalFooter>
+                            <MDBBtn color='secondary' onClick={closeEditModal}>
+                                Close
+                            </MDBBtn>
+                            <MDBBtn onClick={handleEditCategory}>
+                                Save Changes
+                            </MDBBtn>
+                        </MDBModalFooter>
+                    </MDBModalContent>
+                </MDBModalDialog>
+            </MDBModal>
+
         </div>
     );
 };

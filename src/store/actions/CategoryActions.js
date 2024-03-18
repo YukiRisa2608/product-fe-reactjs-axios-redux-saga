@@ -1,4 +1,4 @@
-import * as types from "../types/CategoryTypes";
+import * as CategoryTypes from "../types/CategoryTypes";
 
 // action cho saga: redux saga sẽ thực hiện hành động getListSaga khi dispatch 1 action có type GET_LIST
 export const getCategoriesRequest = () => ({
@@ -20,32 +20,64 @@ export const getCategoriesFailure = (error) => ({
 //delete
 
 export const deleteCategoryRequest = (categoryId) => ({
-    type: types.DELETE_CATEGORY_REQUEST,
+    type: CategoryTypes.DELETE_CATEGORY_REQUEST,
     payload: categoryId,
 });
 
 export const deleteCategorySuccess = (categoryId) => ({
-    type: types.DELETE_CATEGORY_SUCCESS,
+    type: CategoryTypes.DELETE_CATEGORY_SUCCESS,
     payload: categoryId,
 });
 
 export const deleteCategoryFailure = (error) => ({
-    type: types.DELETE_CATEGORY_FAILURE,
+    type: CategoryTypes.DELETE_CATEGORY_FAILURE,
     payload: error,
 });
 
 //toggle
 export const toggleCategoryStatusRequest = (categoryId) => ({
-    type: types.TOGGLE_CATEGORY_STATUS_REQUEST,
+    type: CategoryTypes.TOGGLE_CATEGORY_STATUS_REQUEST,
     payload: categoryId,
 });
 
 export const toggleCategoryStatusSuccess = (categoryId) => ({
-    type: types.TOGGLE_CATEGORY_STATUS_SUCCESS,
+    type: CategoryTypes.TOGGLE_CATEGORY_STATUS_SUCCESS,
     payload: categoryId,
 });
 
 export const toggleCategoryStatusFailure = (error) => ({
-    type: types.TOGGLE_CATEGORY_STATUS_FAILURE,
+    type: CategoryTypes.TOGGLE_CATEGORY_STATUS_FAILURE,
+    payload: error,
+});
+
+//add
+export const addCategoryRequest = (categoryName) => ({
+    type: CategoryTypes.ADD_CATEGORY_REQUEST,
+    payload: categoryName,
+});
+
+export const addCategorySuccess = (category) => ({
+    type: CategoryTypes.ADD_CATEGORY_SUCCESS,
+    payload: category,
+});
+
+export const addCategoryFailure = (error) => ({
+    type: CategoryTypes.ADD_CATEGORY_FAILURE,
+    payload: error,
+});
+
+//edit
+export const editCategoryRequest = (categoryId, categoryName) => ({
+    type: CategoryTypes.EDIT_CATEGORY_REQUEST,
+    payload: { categoryId, categoryName },
+});
+
+export const editCategorySuccess = (category) => ({
+    type: CategoryTypes.EDIT_CATEGORY_SUCCESS,
+    payload: category,
+});
+
+export const editCategoryFailure = (error) => ({
+    type: CategoryTypes.EDIT_CATEGORY_FAILURE,
     payload: error,
 });
