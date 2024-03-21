@@ -1,16 +1,21 @@
-import { put, call } from 'redux-saga/effects';
-// import { getDemo } from '../api';
-import * as types from '../types/HomeType';
-import { getLike } from '../../api/HomeServices';
+import { call, put, takeEvery } from 'redux-saga/effects';
+import * as api from '../../api/HomeServices';
+import * as HomeActions from '../actions/HomeActions';
+import * as HomeTypes from "../types/HomeTypes";
 
-const errorData = {like: 10000}
-export function* getLikeSaga({ payload }) {
+function* fetchHomeItemsSaga(action) {
 	try {
-        console.log('getLikeSaga')
-		const demoData = yield call(getLike, payload);
-
-		yield put({ type: types.GET_LIKE_DONE, demoData });
+		const page = action.payload;
+		const response = yield call(api.getList, { page });
+		console.log(response.totalElements);
+		yield put(HomeActions.getHomeItemsSuccess(response.data, response.pages));
 	} catch (error) {
-		yield put({ type: types.GET_LIKE_DONE, errorData});
+		yield put(HomeActions.getHomeItemsFailure(error.message));
 	}
 }
+
+function* watchHomeSaga() {
+	yield takeEvery(HomeTypes.GET_HOME_ITEMS_REQUEST, fetchHomeItemsSaga);
+}
+
+export default watchHomeSaga;

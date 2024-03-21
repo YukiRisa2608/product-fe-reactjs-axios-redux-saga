@@ -1,45 +1,64 @@
-import React, { Component, button } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as HomeActions from '../store/actions/HomeActions';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import { MDBPagination, MDBPaginationItem, MDBPaginationLink } from 'mdb-react-ui-kit';
 
-import { actionRequestLike } from '../store/actions/HomeAction';
+const Home = () => {
+	const dispatch = useDispatch();
+	const { loading, products = [], totalPages, error } = useSelector(state => state.home || {});
+	console.log(products);
 
-// import User from '../../components/User';
-// Trong container thì nên viết class. 
-class Home extends Component {
-	componentWillMount() {
-		
-	}
+	const [currentPage, setCurrentPage] = React.useState(1);
 
-    getLike() {
-        console.log('click')
-        this.props.actionRequestLike('')
-    }
-    
-	render() {
-        console.log(this.props)
-		return <div>
-            <h1>This is Home like is: {this.props.home.like}</h1>
-            <button onClick={() => this.getLike() }>get Like</button>
-        </div>;
-	}
-}
+	useEffect(() => {
+		dispatch(HomeActions.getHomeItemsRequest(currentPage));
+	}, [dispatch, currentPage]);
 
-const mapDispatchToProps = (dispatch, props) => {
-	return {
-		actionRequestLike: payload => {
-			dispatch(actionRequestLike(payload));
-		}
-	};
+	if (loading) return <div>Loading...</div>;
+	if (error) return <div>Error: {error}</div>;
+
+	return (
+		<div>
+			<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+				{products.map((product, index) => (
+					<Card key={index} style={{ width: '18rem', margin: '10px' }}>
+						<Card.Img variant="top" src={product.imgUrl} alt={product.productName} />
+						<Card.Body>
+							<Card.Title>{product.productName}</Card.Title>
+							<Card.Text>Price: ${product.price}</Card.Text>
+							<Button variant="primary">+ Add to Cart</Button>
+						</Card.Body>
+					</Card>
+				))}
+			</div>
+
+			{totalPages > 1 && (
+				<nav aria-label='Page navigation'>
+					<MDBPagination className='mb-0'>
+						<MDBPaginationItem disabled={currentPage <= 1}>
+							<MDBPaginationLink onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}>
+								Previous
+							</MDBPaginationLink>
+						</MDBPaginationItem>
+						{[...Array(totalPages).keys()].map(page => (
+							<MDBPaginationItem key={page + 1} active={page + 1 === currentPage}>
+								<MDBPaginationLink onClick={() => setCurrentPage(page + 1)}>
+									{page + 1}
+								</MDBPaginationLink>
+							</MDBPaginationItem>
+						))}
+						<MDBPaginationItem disabled={currentPage >= totalPages}>
+							<MDBPaginationLink onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}>
+								Next
+							</MDBPaginationLink>
+						</MDBPaginationItem>
+					</MDBPagination>
+				</nav>
+			)}
+		</div>
+	);
 };
-const mapStateToProps = state => {
-	return {
-		home: state.home
-	};
-};
 
-Home.propTypes = {
-	dispatch: PropTypes.func
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

@@ -1,6 +1,3 @@
-// Replace with your request types
-export const GET_LIKE = 'GET_LIKE';
-export const GET_LIKE_DONE = 'GET_LIKE_DONE';
-export const POST_LIKE = 'POST_LIKE';
-export const INCREASE = 'INCREASE';
-export const DECREASE = 'DECREASE';
+export const GET_HOME_ITEMS_REQUEST = 'GET_HOME_ITEMS_REQUEST';
+export const GET_HOME_ITEMS_SUCCESS = 'GET_HOME_ITEMS_SUCCESS';
+export const GET_HOME_ITEMS_FAILURE = 'GET_HOME_ITEMS_FAILURE';

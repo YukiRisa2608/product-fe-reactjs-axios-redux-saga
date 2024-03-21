@@ -1,25 +1,19 @@
-import * as types from "../types/HomeType";
+import * as HomeTypes from "../types/HomeTypes";
 
-// action cho saga: redux saga sẽ thực hiện hành động getLikeSaga khi dispatch 1 action có type GET_LIKE
-export const actionRequestLike = () => ({
-    type: types.GET_LIKE,
+// Action để trigger saga fetch data
+export const getHomeItemsRequest = (page) => ({
+    type: HomeTypes.GET_HOME_ITEMS_REQUEST,
+    payload: page,
 });
 
-// action cho reducer: reducer sẽ thực hiện hành động cập nhật data khi dispatch 1 action có type GET_LIKE_DONE
-export const actionRequestLikeDone = (payload) => ({
-    type: types.GET_LIKE_DONE,
-    payload
+// Action khi fetch data thành công
+export const getHomeItemsSuccess = (data, totalPages) => ({
+    type: HomeTypes.GET_HOME_ITEMS_SUCCESS,
+    payload: { data, totalPages },
 });
 
-export const actionIncrease = () => ({
-    type: types.INCREASE
-});
-
-export const actionDecrease = () => ({
-    type: types.DECREASE
-});
-
-export const actionPostLike = payload => ({
-    type: types.POST_LIKE,
-    payload
+// Action khi fetch data thất bại
+export const getHomeItemsFailure = (error) => ({
+    type: HomeTypes.GET_HOME_ITEMS_FAILURE,
+    payload: error,
 });

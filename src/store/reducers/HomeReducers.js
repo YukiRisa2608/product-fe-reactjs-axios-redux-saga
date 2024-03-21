@@ -1,34 +1,24 @@
-import * as types from "../types/HomeTypes";
+import * as HomeTypes from "../types/HomeTypes";
 
-const INITIAL_STATE = {
-    like: 0,
-    number: 0
+const initialState = {
+    loading: false,
+    products: [],
+    totalPages: 0,
+    error: null,
 };
 
-// Replace with you own reducer
-export default (state = INITIAL_STATE, action) => {
+const homeReducer = (state = initialState, action) => {
     switch (action.type) {
-        case types.GET_LIKE_DONE:
-            return {
-                ...state,
-                like: action.demoData ? action.demoData.like : 0
-            };
-        case types.POST_LIKE:
-            return {
-                ...state,
-                ...action.payload
-            };
-        case types.INCREASE:
-            return {
-                ...state,
-                number: state.number + 1
-            };
-        case types.DECREASE:
-            return {
-                ...state,
-                number: state.number - 1
-            };
+        case HomeTypes.GET_HOME_ITEMS_REQUEST:
+            return { ...state, loading: true };
+        case HomeTypes.GET_HOME_ITEMS_SUCCESS:
+            return { ...state, loading: false, products: action.payload.data, totalPages: action.payload.totalPages };
+        case HomeTypes.GET_HOME_ITEMS_FAILURE:
+            return { ...state, loading: false, error: action.payload };
         default:
             return state;
     }
 };
+
+export default homeReducer;
+
