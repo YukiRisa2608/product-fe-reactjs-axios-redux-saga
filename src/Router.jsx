@@ -5,25 +5,22 @@ import Categories from './containers/Categories';
 import Products from './containers/Products';
 import Home from './containers/Home';
 import Cart from './containers/Cart';
+import { HeaderProvider } from './components/HeaderContext';
 
 const Router = () => {
 
     return (
         <div>
-
-            {/* <Routes>
-                <Route path='/' element={<HomePage />} />
-            </Routes> */}
-
-            <Routes>
-                <Route path='/admin' element={<DefaultLayout />} >
-                    <Route path='/admin/category' element={<Categories />} />
-                    <Route path='/admin/product' element={<Products />} />
-                </Route>
-                <Route path='/home' element={<Home />} />
-                <Route path='/cart' element={<Cart />} />
-
-            </Routes>
+            <HeaderProvider>
+                <Routes>
+                    <Route path="/" element={<DefaultLayout />}>
+                        <Route path="/home" element={<Home />} />
+                        <Route path="admin/category" element={<Categories />} />
+                        <Route path="admin/product" element={<Products />} />
+                        <Route path="customer/cart" element={<Cart />} />
+                    </Route>
+                </Routes>
+            </HeaderProvider>
         </div>
     )
 }

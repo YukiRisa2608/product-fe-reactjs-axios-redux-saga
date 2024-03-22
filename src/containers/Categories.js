@@ -16,10 +16,14 @@ import {
 } from 'mdb-react-ui-kit';
 
 const Categories = () => {
+    // useDispatch gửi các actions đến store của Redux để cập nhật trạng thái.
+    //useSelector truy cập trạng thái dữ liệu categories từ store.
     const dispatch = useDispatch();
     const categories = useSelector(state => state.categories.categories);
 
     //const add
+    //useState để thêm trạng thái React vào các function components
+    //trả về một mảng với hai phần tử: giá trị hiện tại của trạng thái và một hàm để cập nhật giá trị mới.
     const [isShowCreate, setIsShowCreate] = useState(false);
     const [categoryName, setCategoryName] = useState('');
 
@@ -28,7 +32,7 @@ const Categories = () => {
     const [editCategoryName, setEditCategoryName] = useState('');
     const [editCategoryId, setEditCategoryId] = useState(null);
     
-
+    //khởi tạo trạng thái ban đầu của component, lấy dữ liệu categories từ server.
     useEffect(() => {
         dispatch(CategoryActions.getCategoriesRequest());
     }, [dispatch]);
@@ -36,7 +40,8 @@ const Categories = () => {
     //open / close modal add
     const toggleOpenCreate = () => {
         setIsShowCreate(!isShowCreate);
-        setCategoryName(''); // Clear input after closing the modal
+        // Clear input value after closing the modal
+        setCategoryName(''); 
     };
 
     //handle add
@@ -48,6 +53,7 @@ const Categories = () => {
             console.log("Please enter a valid category name.");
         }
     };
+
     //handle change name value
     const handleChangeCategoryName = (e) => {
         setCategoryName(e.target.value);
@@ -77,7 +83,7 @@ const Categories = () => {
     }
 };
 
-    
+// View
 
     return (
         <div>

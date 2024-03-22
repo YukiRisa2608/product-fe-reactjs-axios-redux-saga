@@ -1,7 +1,8 @@
 import axios from 'axios';
 import storageService from './storage.service';
+import {token} from "../api";
 
-class HttpService {
+export default class HttpService {
 
     async get(uri, options = { headers: {}, params: {}, body: {} }) {
         console.log("Mehtod get, uri = ", uri)
@@ -56,7 +57,8 @@ class HttpService {
     generateHttpHeaders(headerInfo) {
         const headers = {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${storageService.get('accessToken')}`,
+            // Authorization: `Bearer ${storageService.get('accessToken')}`,
+            Authorization: `Bearer ${token}`
         };
 
         if (headerInfo) {
@@ -67,5 +69,3 @@ class HttpService {
         return headers;
     }
 }
-
-export default HttpService;

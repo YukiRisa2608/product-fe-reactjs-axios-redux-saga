@@ -1,13 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import * as api from '../../api/HomeServices';
+import homeService from '../../api/HomeServices';
 import * as HomeActions from '../actions/HomeActions';
 import * as HomeTypes from "../types/HomeTypes";
 
 function* fetchHomeItemsSaga(action) {
 	try {
 		const page = action.payload;
-		const response = yield call(api.getList, { page });
-		console.log(response.totalElements);
+		const response = yield call(homeService.getList, { page });
 		yield put(HomeActions.getHomeItemsSuccess(response.data, response.pages));
 	} catch (error) {
 		yield put(HomeActions.getHomeItemsFailure(error.message));

@@ -1,5 +1,6 @@
 import { MDBCol, MDBRow } from "mdb-react-ui-kit";
 import { Outlet } from "react-router-dom";
+import BaseHeader from "./BaseHeader";
 
 const DefaultLayout = () => {
     return (
@@ -8,8 +9,8 @@ const DefaultLayout = () => {
                 md="2"
             </MDBCol>
             <MDBCol md='10'>
-                <MDBRow className="bg-danger" >
-                    Header
+                <MDBRow className="bg-danger py-5" >
+                    <BaseHeader/>
                 </MDBRow>
                 <Outlet />
             </MDBCol>

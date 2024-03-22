@@ -34,7 +34,9 @@ const Products = () => {
     const [productDescription, setProductDescription] = useState('');
     const [productPrice, setProductPrice] = useState('');
     const [productQuantity, setProductQuantity] = useState('');
-    const [productStatus, setProductStatus] = useState('true'); 
+    const [classification, setClassification] = useState('');
+    const [productStatus, setProductStatus] = useState('true');
+    const [file, setFile] = useState(null);
 
     //toggle modal thêm mới sản phẩm
     // Reset các state khi mở hoặc đóng modal
@@ -47,6 +49,8 @@ const Products = () => {
         setProductPrice('');
         setProductQuantity('');
         setProductStatus('true'); // Reset về giá trị mặc định khi đóng hoặc mở modal
+        setFile(null)
+        setClassification('')
     };
 
     // Hàm xử lý khi tạo sản phẩm mới
@@ -60,17 +64,19 @@ const Products = () => {
         const productDetails = {
             productName,
             categoryId,
-            productImage, 
-            productDescription,
-            productPrice,
-            productQuantity,
-            productStatus: productStatus === 'true' 
+            productImage,
+            description: productDescription,
+            price: productPrice,
+            quantity: productQuantity,
+            classification,
+            file,
+            productStatus: productStatus === 'true'
         };
-    
+
         console.log("Creating product with details:", productDetails);
     
         try {
-            await dispatch(ProductActions.addProductRequest(productDetails));
+            dispatch(ProductActions.addProductRequest(productDetails));
             console.log("Product added successfully");
             toggleOpenCreate(); // Đóng modal sau khi xử lý
         } catch (error) {
@@ -85,6 +91,7 @@ const Products = () => {
       const handleChangeProductDescription = (e) => setProductDescription(e.target.value);
       const handleChangeProductPrice = (e) => setProductPrice(e.target.value);
       const handleChangeProductQuantity = (e) => setProductQuantity(e.target.value);
+      const handleChangeClassification = (e) => setClassification(e.target.value);
 
 
 
@@ -194,13 +201,21 @@ const Products = () => {
                                 value={productQuantity}
                                 onChange={handleChangeProductQuantity}
                             />
+                            {/*classification  */}
                             <MDBInput
-                                label="Product Image URL"
-                                id="addProductImage"
+                                label="Classification"
+                                id="addClassification"
                                 type="text"
                                 className="mb-3"
-                                value={productImage} 
-                                onChange={handleChangeProductImage} 
+                                value={classification}
+                                onChange={handleChangeClassification}
+                            />
+
+                            <MDBInput
+                                id="addProductImage"
+                                type="file"
+                                className="mb-3"
+                                onChange={(e) => setFile(e.target.files[0])}
                             />
                         </MDBModalBody>
                         {/* Footer */}

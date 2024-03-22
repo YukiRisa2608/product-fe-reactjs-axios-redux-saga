@@ -12,7 +12,6 @@ export const addCategory = async (categoryName) => {
     return response.data;
 };
 
-
 //delete
 export const deleteCategory = async (categoryId) => {
     const response = await instance.delete(`admin/categories/${categoryId}`);

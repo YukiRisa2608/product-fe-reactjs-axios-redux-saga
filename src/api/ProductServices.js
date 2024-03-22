@@ -1,4 +1,6 @@
 import { instance } from ".";
+import HttpService from "../utils/http-service";
+
 
 //get all
 export const getList = async (params) => {
@@ -7,8 +9,18 @@ export const getList = async (params) => {
 };
 
 //add
-export const addProduct = async (productName) => {
-    const response = await instance.post('/admin/products', { productName });
+export const addProduct = async (payload) => {
+    const formData = new FormData();
+    for (const key in payload) {
+        formData.append(key, payload[key]);
+    }
+
+    const response = await new HttpService().post('/admin/products', {
+        body: formData,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
     return response.data;
 };
 
@@ -17,7 +29,7 @@ export const addProduct = async (productName) => {
 export const deleteProduct = async (productId) => {
     const response = await instance.delete(`admin/products/${productId}`);
     return response.data
-}; 
+};
 
 //toggle
 export const toggleProductStatus = async (productId) => {
