@@ -18,6 +18,23 @@ export const getCartItemsFailure = (error) => ({
     payload: error,
 });
 
+//---------------delete---------------------
+
+export const removeItemInCartRequest = (productId) => ({
+    type: CartTypes.REMOVE_ITEM_CART_REQUEST,
+    payload: productId,
+});
+
+export const removeItemInCartSuccess = (productId) => ({
+    type: CartTypes.REMOVE_ITEM_CART_SUCCESS,
+    payload: productId,
+});
+
+export const removeItemInCartFailure = (error) => ({
+    type: CartTypes.REMOVE_ITEM_CART_FAILURE,
+    payload: error,
+});
+
 // ---------------------- Update quantity cart --------------------
 export const updateQuantityRequest = (payload) => ({
     type: CartTypes.UPDATE_QUANTITY_CART_REQUEST,
@@ -47,5 +64,21 @@ export const purchaseSuccess = (data) => ({
 
 export const purchaseFailure = (error) => ({
     type: CartTypes.PURCHASE_CART_FAILURE,
+    payload: error,
+});
+
+// ---------------------- add to cart --------------------
+export const addToCartRequest = (payload) => ({
+    type: CartTypes.ADD_TO_CART_REQUEST,
+    payload: payload,
+});
+
+export const addToCartSuccess = (data) => ({
+    type: CartTypes.ADD_TO_CART_SUCCESS,
+    payload: { data },
+});
+
+export const addToCartFailure = (error) => ({
+    type: CartTypes.ADD_TO_CART_FAILURE,
     payload: error,
 });

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import storageService from './storage.service';
-import {token} from "../api";
+import { AuthKeys } from './constant';
 
 export default class HttpService {
 
@@ -9,7 +9,7 @@ export default class HttpService {
         try {
             return await this.request('GET', uri, options);
         } catch (error) {
-            throw new Error(error.message)
+            return error.response
         }
     }
 
@@ -17,7 +17,7 @@ export default class HttpService {
         try {
             return await this.request('POST', uri, options);
         } catch (error) {
-            throw new Error(error.message)
+            return error.response
         }
     }
 
@@ -25,7 +25,7 @@ export default class HttpService {
         try {
             return await this.request('PATCH', uri, options);
         } catch (error) {
-            throw new Error(error.message)
+            return error.response
         }
     }
 
@@ -33,7 +33,7 @@ export default class HttpService {
         try {
             return await this.request('DELETE', uri, options);
         } catch (error) {
-            throw new Error(error.message)
+            return error.response
         }
     }
 
@@ -57,8 +57,7 @@ export default class HttpService {
     generateHttpHeaders(headerInfo) {
         const headers = {
             'Content-Type': 'application/json',
-            // Authorization: `Bearer ${storageService.get('accessToken')}`,
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${storageService.get(AuthKeys.ACCESS_TOKEN)}`,
         };
 
         if (headerInfo) {

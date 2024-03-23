@@ -1,13 +1,20 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as HomeActions from '../store/actions/HomeActions';
+import * as AuthActions from '../store/actions/AuthActions';
+import * as CartActions from '../store/actions/CartActions';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { MDBPagination, MDBPaginationItem, MDBPaginationLink } from 'mdb-react-ui-kit';
+import { MDBPagination, MDBPaginationItem, MDBPaginationLink, MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem } from 'mdb-react-ui-kit';
+import { useNavigate } from 'react-router-dom';
+import storageService from '../utils/storage.service';
+import { AuthKeys } from '../utils/constant';
 
 const Home = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { loading, products = [], totalPages, error } = useSelector(state => state.home || {});
+	const { data } = useSelector(state => state.auth || {});
 	console.log(products);
 
 	const [currentPage, setCurrentPage] = React.useState(1);
@@ -15,6 +22,25 @@ const Home = () => {
 	useEffect(() => {
 		dispatch(HomeActions.getHomeItemsRequest(currentPage));
 	}, [dispatch, currentPage]);
+
+	const handleLogout = () => {
+		dispatch(AuthActions.logoutRequest())
+	}
+
+	// Fix tam
+	useEffect(() => {
+		if (storageService.get(AuthKeys.LOGGED_IN) === 'false') {
+			navigate("/login")
+		}
+	}, [data]);
+
+	const handleAddToCart = (product) => {
+		console.log(product);
+		dispatch(CartActions.addToCartRequest({ productId: product.productId }))
+	}
+
+
+
 
 	if (loading) return <div>Loading...</div>;
 	if (error) return <div>Error: {error}</div>;
@@ -28,7 +54,7 @@ const Home = () => {
 						<Card.Body>
 							<Card.Title>{product.productName}</Card.Title>
 							<Card.Text>Price: ${product.price}</Card.Text>
-							<Button variant="primary">+ Add to Cart</Button>
+							<Button variant="primary" onClick={() => handleAddToCart(product)} >+ Add to Cart</Button>
 						</Card.Body>
 					</Card>
 				))}
@@ -57,6 +83,8 @@ const Home = () => {
 					</MDBPagination>
 				</nav>
 			)}
+
+			<button onClick={handleLogout} >Logout</button>
 		</div>
 	);
 };

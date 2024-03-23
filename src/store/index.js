@@ -5,12 +5,14 @@ import productsReducer from './reducers/ProductReducers';
 import homeReducer from './reducers/HomeReducers';
 import rootSaga from './sagas';
 import cartReducer from './reducers/CartReducers';
+import authReducer from './reducers/AuthReducers';
 
 const rootReducer = combineReducers({
   categories: categoriesReducer,
   products: productsReducer,
   home: homeReducer,
-  cart: cartReducer
+  cart: cartReducer,
+  auth: authReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();

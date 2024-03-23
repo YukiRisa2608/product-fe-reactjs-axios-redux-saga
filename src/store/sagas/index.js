@@ -3,6 +3,7 @@ import watchHomeSaga from './HomeSagas';
 import categoriesWatcherSaga from './CategorySagas';
 import productsWatcherSaga from './ProductSagas';
 import watchCartSaga from './CartSagas';
+import watchAuthSaga from './AuthSagas';
 
 
 export default function* rootSaga() {
@@ -10,6 +11,7 @@ export default function* rootSaga() {
         watchHomeSaga(),
         categoriesWatcherSaga(),
         productsWatcherSaga(),
-        watchCartSaga()
+        watchCartSaga(),
+        watchAuthSaga()
     ]);
 }

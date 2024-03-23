@@ -1,51 +1,37 @@
+import { toast } from "react-toastify";
 import { instance } from ".";
 import HttpService from "../utils/http-service";
 
 //get cart product
 export const getCartInfo = async () => {
-    // let response = await instance.request({
-    //     method: "GET",
-    //     baseURL: "http://localhost:8081/api.com/v2/",
-    //     url: 'customer/carts',
-    //     headers: {
-    //         Authorization: `Bearer ${token}`
-    //     },
-    // });
     let response = await new HttpService().get('customer/carts');
-
     return response.data;
 };
 
-//get cart product
+//delete
+export const removeItemInCart = async (productId) => {
+    const response = await new HttpService().delete(`customer/carts/${productId}`);
+    return response.data
+};
+
+//+- quantity
 export const updateQuantity = async (payload) => {
-    // let response = await instance.request({
-    //     method: "POST",
-    //     baseURL: "http://localhost:8081/api.com/v2/",
-    //     url: 'customer/carts',
-    //     headers: {
-    //         Authorization: `Bearer ${token}`
-    //     },
-    //     params: payload
-    // });
-
-    let response = await new HttpService().post('customer/carts', { params: payload });
-
-
+    let response = await new HttpService().patch('customer/carts', { params: payload });
     return response.data;
 };
 
-
-//get cart product
+//purchase
 export const purchase = async () => {
-    // let response = await instance.request({
-    //     method: "POST",
-    //     baseURL: "http://localhost:8081/api.com/v2/",
-    //     url: 'customer/carts/purchase',
-    //     headers: {
-    //         Authorization: `Bearer ${token}`
-    //     },
-    // });
     let response = await new HttpService().post('customer/carts/purchase');
+    return response.data;
+};
 
+// add to cart
+export const addToCart = async (payload) => {
+    let response = await new HttpService().post('customer/carts', {
+        params: payload
+    });
+    console.log(response.data)
+    toast.success(response.data)
     return response.data;
 };
