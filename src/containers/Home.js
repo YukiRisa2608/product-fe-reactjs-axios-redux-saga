@@ -20,28 +20,21 @@ const Home = () => {
 		dispatch(HomeActions.getHomeItemsRequest(currentPage));
 	}, [dispatch, currentPage]);
 
-	// Fix tam
-	useEffect(() => {
-		// if (storageService.get(AuthKeys.LOGGED_IN) === 'false') {
-			// navigate("/login")
-		// }
-	}, [data]);
-
 	const handleAddToCart = (product) => {
 		console.log(product);
 		dispatch(CartActions.addToCartRequest({ productId: product.productId }))
 	}
 
 	const handleSearch = (keyword) => {
-        console.log(`search in home with key ${keyword}`)
-    } 
+		console.log(`search in home with key ${keyword}`)
+	}
 
 	if (loading) return <div>Loading...</div>;
 	if (error) return <div>Error: {error}</div>;
 
 	return (
 		<div>
-			<Navbar handleSearch={handleSearch}/>
+			<Navbar handleSearch={handleSearch} />
 			<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
 				{(products && products.length > 0) ? products.map((product, index) => (
 					<Card key={index} style={{ width: '18rem', margin: '10px' }}>

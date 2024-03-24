@@ -11,13 +11,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as AuthActions from '../store/actions/AuthActions'
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthKeys } from '../utils/constant';
-import Navbar from '../components/Navbar';
 
 const Login = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate()
-    const [payload, setPayload] = useState({ username: 'admin', password: '11111111' })
-    const { loading, data = {}, error } = useSelector(state => state.auth || {});
+    const navigate = useNavigate();
+    const [payload, setPayload] = useState({ username: '', password: '' });
+    const { loading, data = {}, redirectTo = null, error } = useSelector(state => state.auth || {});
 
     const handleChangeUsername = (e) => setPayload({ ...payload, username: e.target.value });
     const handleChangePassword = (e) => setPayload({ ...payload, password: e.target.value });
@@ -26,16 +25,28 @@ const Login = () => {
         dispatch(AuthActions.loginRequest(payload))
     }
 
+    // useEffect(() => {
+    //     // Check if user is already logged in
+    //     const accessToken = localStorage.getItem(AuthKeys.ACCESS_TOKEN);
+    //     const loggedIn = localStorage.getItem(AuthKeys.LOGGED_IN) === 'true';
+    //     if (accessToken && loggedIn) {
+    //         // check role and redirect
+    //         const role = JSON.parse(localStorage.getItem(AuthKeys.CURRENT_USER))?.role || [];
+    //         if (role.includes(AuthKeys.ROLE_ADMIN)) {
+    //             navigate('/admin/category');
+    //         } else if (role.includes(AuthKeys.ROLE_USER)) {
+    //             navigate('/home');
+    //         }
+    //     }
+    // }, []);
+
     useEffect(() => {
-        console.log("Login data changed", data)
-        if (data && data.role && data.role.includes(AuthKeys.ROLE_ADMIN)) {
-            navigate('/admin/category')
-            console.log("Navigate to admin page");
-        } else if (data && data.role && data.role.includes(AuthKeys.ROLE_USER)) {
-            navigate("/home")
-            console.log("Navigate to user page");
-        }
-    }, [data])
+        setTimeout(() => {
+            if (redirectTo) {
+                navigate(redirectTo);
+            }
+        }, 500)
+    }, [redirectTo]);
 
 
     if (loading) return <div>Loading...</div>;
@@ -85,10 +96,8 @@ const Login = () => {
                     <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
                         <MDBIcon fab icon='github' size="sm" />
                     </MDBBtn>
-
                 </div>
             </div>
-
         </MDBContainer>
     );
 }

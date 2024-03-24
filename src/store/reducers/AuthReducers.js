@@ -6,7 +6,8 @@ const initialState = {
     loading: false,
     data: {},
     error: null,
-    signupSucess: false
+    signupSuccess: false,
+    redirectTo: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -23,6 +24,12 @@ const authReducer = (state = initialState, action) => {
             return { ...state, loading: false, data: user };
         case AuthTypes.LOGIN_FAILURE:
             return { ...state, loading: false, error: action.payload };
+
+        // Handle navigation actions
+        case AuthTypes.NAVIGATE_TO_ADMIN:
+            return { ...state, redirectTo: '/admin/category' };
+        case AuthTypes.NAVIGATE_TO_CUSTOMER:
+            return { ...state, redirectTo: '/home' };
 
         // logout
         case AuthTypes.LOGOUT_REQUEST:
@@ -43,9 +50,9 @@ const authReducer = (state = initialState, action) => {
             return { ...state, loading: true };
         case AuthTypes.SIGNUP_SUCCESS:
             // Save info log
-            return { ...state, loading: false, signupSucess: true };
+            return { ...state, loading: false, signupSuccess: true };
         case AuthTypes.SIGNUP_FAILURE:
-            return { ...state, loading: false, error: action.payload, signupSucess: false };
+            return { ...state, loading: false, error: action.payload, signupSuccess: false };
         default:
             return state;
     }

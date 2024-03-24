@@ -16,7 +16,7 @@ export const addCategory = async (categoryName) => {
 export const deleteCategory = async (categoryId) => {
     const response = await instance.delete(`admin/categories/${categoryId}`);
     return response.data
-}; 
+};
 
 //toggle
 export const toggleCategoryStatus = async (categoryId) => {

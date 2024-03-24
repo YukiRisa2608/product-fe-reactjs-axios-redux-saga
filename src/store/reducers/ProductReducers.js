@@ -6,13 +6,13 @@ const initialState = {
 };
 
 const productsReducer = (state = initialState, action) => {
-    switch (action.type) { 
-        case ProductTypes.GET_PRODUCTS_REQUEST: 
+    switch (action.type) {
+        case ProductTypes.GET_PRODUCTS_REQUEST:
             return {
                 ...state,
                 loading: true,
             };
-        case ProductTypes.GET_PRODUCTS_SUCCESS: 
+        case ProductTypes.GET_PRODUCTS_SUCCESS:
             return {
                 ...state,
                 products: action.payload,
@@ -29,10 +29,10 @@ const productsReducer = (state = initialState, action) => {
         case ProductTypes.TOGGLE_PRODUCT_STATUS_SUCCESS:
             return {
                 ...state,
-                products: state.products.map(product => 
-                product.id === action.payload ? { ...product, status: !product.status } : product),
-             };
-    
+                products: state.products.map(product =>
+                    product.id === action.payload ? { ...product, status: !product.status } : product),
+            };
+
         //add
         case ProductTypes.ADD_PRODUCT_SUCCESS:
             return {
@@ -43,17 +43,18 @@ const productsReducer = (state = initialState, action) => {
         case ProductTypes.ADD_PRODUCT_FAILURE:
             return {
                 ...state,
-            };    
+            };
 
         //edit
+        case ProductTypes.EDIT_PRODUCT_REQUEST:
+            return { ...state, loading: true };
+
         case ProductTypes.EDIT_PRODUCT_SUCCESS:
-            return {
-                ...state,
-                products: state.products.map((product) =>
-                    product.id === action.payload.id ? { ...action.payload } : product
-                ),
-            };
-    
+            return { ...state, loading: false };
+
+        case ProductTypes.EDIT_PRODUCT_FAILURE:
+            return { ...state, loading: false };
+
         default:
             return state;
     }

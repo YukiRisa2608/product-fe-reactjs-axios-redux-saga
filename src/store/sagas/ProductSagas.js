@@ -17,7 +17,7 @@ function* getProductsSaga() {
 function* deleteProductSaga(action) {
     try {
         // Gọi API xóa product
-        yield call(api.deleteProduct, action.payload); 
+        yield call(api.deleteProduct, action.payload);
         yield put(ProductActions.deleteProductSuccess(action.payload));
         // gọi lại danh sách products
         yield put(ProductActions.getProductsRequest());
@@ -29,7 +29,7 @@ function* deleteProductSaga(action) {
 //toggle
 function* toggleProductStatusSaga(action) {
     try {
-        const updatedProduct = yield call(api.toggleProductStatus, action.payload); 
+        const updatedProduct = yield call(api.toggleProductStatus, action.payload);
         yield put(ProductActions.toggleProductStatusSuccess(updatedProduct.id));
         yield put(ProductActions.getProductsRequest());
     } catch (error) {
@@ -52,7 +52,7 @@ function* addProductSaga(action) {
 //edit
 function* editProductSaga(action) {
     try {
-        const updatedProduct = yield call(api.updateProduct, action.payload.productId, action.payload.productName);
+        const updatedProduct = yield call(api.updateProduct, action.payload.productId, action.payload);
         yield put(ProductActions.editProductSuccess(updatedProduct));
         //fetch lại danh sách sau khi cập nhật thành công
         yield put(ProductActions.getProductsRequest());

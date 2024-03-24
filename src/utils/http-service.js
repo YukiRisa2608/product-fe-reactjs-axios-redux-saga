@@ -37,6 +37,14 @@ export default class HttpService {
         }
     }
 
+    async put(uri, options = { headers: {}, params: {}, body: {} }) {
+        try {
+            return await this.request('PUT', uri, options);
+        } catch (error) {
+            return error.response
+        }
+    }
+
     async request(method, uri, options = { headers: {}, params: {}, body: {} }) {
         let whiteList = [];
         console.log("Call request")

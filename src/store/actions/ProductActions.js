@@ -67,9 +67,9 @@ export const addProductFailure = (error) => ({
 });
 
 //edit
-export const editProductRequest = (productId, productName) => ({
+export const editProductRequest = (productId, payload) => ({
     type: ProductTypes.EDIT_PRODUCT_REQUEST,
-    payload: { productId, productName },
+    payload: { productId, payload },
 });
 
 export const editProductSuccess = (product) => ({

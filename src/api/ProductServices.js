@@ -38,7 +38,22 @@ export const toggleProductStatus = async (productId) => {
 };
 
 //edit
-export const updateProduct = async (productId, productName) => {
-    const response = await instance.put(`/admin/products/${productId}`, { productName });
+export const updateProduct = async (productId, payload) => {
+    const formData = new FormData();
+    for (const key in payload.payload) {
+        if (key === 'file') {
+            if (payload.payload[key] === null) {
+                continue
+            }
+        }
+        formData.append(key, payload.payload[key]);
+    }
+
+    const response = await new HttpService().put(`/admin/products/${productId}`, {
+        body: formData,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
     return response.data;
 };

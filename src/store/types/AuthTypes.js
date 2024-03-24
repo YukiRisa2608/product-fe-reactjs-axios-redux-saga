@@ -12,3 +12,7 @@ export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
+
+// navigate by role
+export const NAVIGATE_TO_ADMIN = 'NAVIGATE_TO_ADMIN';
+export const NAVIGATE_TO_CUSTOMER = 'NAVIGATE_TO_CUSTOMER';
