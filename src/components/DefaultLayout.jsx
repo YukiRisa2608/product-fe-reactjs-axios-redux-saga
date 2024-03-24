@@ -8,8 +8,6 @@ const DefaultLayout = () => {
                 md="2"
             </MDBCol>
             <MDBCol md='10'>
-                <MDBRow className="bg-danger py-5" >
-                </MDBRow>
                 <Outlet />
             </MDBCol>
         </MDBRow>

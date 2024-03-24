@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as AuthActions from '../store/actions/AuthActions'
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthKeys } from '../utils/constant';
+import Navbar from '../components/Navbar';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -42,7 +43,6 @@ const Login = () => {
 
     return (
         <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-
             <MDBInput wrapperClass='mb-4'
                 label='Username'
                 id='form1'

@@ -13,6 +13,7 @@ import {
     MDBRow,
     MDBTypography,
 } from "mdb-react-ui-kit";
+import Navbar from '../components/Navbar';
 const Cart = () => {
     const dispatch = useDispatch();
     const { loading, items = [], error } = useSelector(state => state.cart || {});
@@ -49,11 +50,16 @@ const Cart = () => {
         dispatch(CartActions.purchaseRequest({}));
     }
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    // if (loading) return <div>Loading...</div>;
+    // if (error) return <div>Error: {error}</div>;
+
+    const handleSearch = (keyword) => {
+        console.log(`search in cart with key ${keyword}`)
+    }
 
     return (
         <>
+        <Navbar handleSearch={handleSearch}/>
             <section className="h-100" >
                 <MDBContainer fluid className="py-3 ">
                     <MDBRow className="justify-content-center align-items-center h-100">
@@ -89,7 +95,7 @@ const Cart = () => {
                                                 </MDBTypography>
                                             </MDBCol>
                                             <MDBCol md="1" lg="1" xl="1" className="text-end">
-                                                <MDBBtn color="link" className="p-0" onClick={() => handleRemoveItemInCart(item.product.productId)}>
+                                                <MDBBtn color="link" className="p-0" onClick={() => handleRemoveItemInCart(item.product.id)}>
                                                     <MDBIcon fas icon="trash" size="lg" className="text-danger" />
                                                 </MDBBtn>
                                             </MDBCol>
