@@ -3,6 +3,7 @@ import homeService from '../../api/HomeServices';
 import * as HomeActions from '../actions/HomeActions';
 import * as HomeTypes from "../types/HomeTypes";
 
+//get all
 function* fetchHomeItemsSaga(action) {
 	try {
 		const page = action.payload;
@@ -13,6 +14,7 @@ function* fetchHomeItemsSaga(action) {
 	}
 }
 
+//watch saga
 function* watchHomeSaga() {
 	yield takeEvery(HomeTypes.GET_HOME_ITEMS_REQUEST, fetchHomeItemsSaga);
 }

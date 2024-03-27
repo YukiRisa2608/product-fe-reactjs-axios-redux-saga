@@ -4,21 +4,21 @@ import * as HomeActions from '../store/actions/HomeActions';
 import * as CartActions from '../store/actions/CartActions';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { MDBPagination, MDBPaginationItem, MDBPaginationLink, MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem } from 'mdb-react-ui-kit';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import storageService from '../utils/storage.service';
 import { AuthKeys } from '../utils/constant';
+import { FaCartPlus } from 'react-icons/fa';
 
 
 const Home = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { loading, products = [], totalPages, error } = useSelector(state => state.home || {});
 	const { data } = useSelector(state => state.auth || {});
-	console.log(products);
 	const [currentPage, setCurrentPage] = React.useState(1);
+	const { loading, products = [], totalPages, error } = useSelector(state => state.home || {});
+
 
 	useEffect(() => {
 		dispatch(HomeActions.getHomeItemsRequest(currentPage));
@@ -50,36 +50,13 @@ const Home = () => {
 						<Card.Body>
 							<Card.Title>{product.productName}</Card.Title>
 							<Card.Text>Price: ${product.price}</Card.Text>
-							<Button variant="primary" onClick={() => handleAddToCart(product)} >+ Add to Cart</Button>
+							<Button style={{ backgroundColor: "#df6474" }} onClick={() => handleAddToCart(product)} ><FaCartPlus style={{ fontSize: '20px' }}/></Button>
 						</Card.Body>
 					</Card>
 				)) : <p>Your products are empty!</p>}
 			</div>
 
-			{/* Pagination */}
-			{/* {totalPages > 1 && (
-				<nav className=" py-5" aria-label='Page navigation' style={{ backgroundColor: "#fdccbc" }}>
-					<MDBPagination className='mb-0'>
-						<MDBPaginationItem disabled={currentPage <= 1}>
-							<MDBPaginationLink onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}>
-								Previous
-							</MDBPaginationLink>
-						</MDBPaginationItem>
-						{[...Array(totalPages).keys()].map(page => (
-							<MDBPaginationItem key={page + 1} active={page + 1 === currentPage}>
-								<MDBPaginationLink onClick={() => setCurrentPage(page + 1)}>
-									{page + 1}
-								</MDBPaginationLink>
-							</MDBPaginationItem>
-						))}
-						<MDBPaginationItem disabled={currentPage >= totalPages}>
-							<MDBPaginationLink onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}>
-								Next
-							</MDBPaginationLink>
-						</MDBPaginationItem>
-					</MDBPagination>
-				</nav>
-			)} */}
+{/* Pagination */}
 			<div>
 				<Footer currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
 			</div>

@@ -90,13 +90,13 @@ const Categories = () => {
             <div className="d-flex justify-content-end mb-4">
                 <Button variant="primary" onClick={toggleOpenCreate}>+ Add Category</Button>
             </div>
-            <Table striped bordered hover>
+            <Table striped bordered hover className='bg-white'>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Category Name</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>ID</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Category Name</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Status</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -27,6 +27,7 @@ function Signup() {
 
     const handleSignup = () => {
         dispatch(AuthActions.signupRequest(payload))
+        navigate("/login")
     }
 
     useEffect(() => {

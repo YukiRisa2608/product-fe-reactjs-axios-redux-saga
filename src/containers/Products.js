@@ -158,22 +158,22 @@ const Products = () => {
     };
 
     return (
-        <div>
+        <div className='bg-black'>
             <div className="d-flex justify-content-end mb-4">
                 <Button variant="primary" onClick={toggleOpenCreate}>+ Add Product</Button>
             </div>
-            <Table striped bordered hover>
+            <Table striped bordered hover className='bg-white'>
                 <thead>
-                    <tr>
-                        <th className="bg-secondary">Product ID</th>
-                        <th className="bg-secondary">Category Name</th>
-                        <th className="bg-secondary">Image</th>
-                        <th className="bg-secondary">Product Name</th>
-                        <th className="bg-secondary">Description</th>
-                        <th className="bg-secondary">Price</th>
-                        <th className="bg-secondary">Quantity</th>
-                        <th className="bg-secondary">Status</th>
-                        <th className="bg-secondary">Actions</th>
+                    <tr >
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Product ID</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Category Name</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Image</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Product Name</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Description</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Price</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Quantity</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Status</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -54,12 +54,12 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />,
-        loader: isAuthenticated,
+        // loader: isAuthenticated,
     },
     {
         path: "/signup",
         element: <Signup />,
-        loader: isAuthenticated,
+        // loader: isAuthenticated,
     },
     {
         path: "/home",

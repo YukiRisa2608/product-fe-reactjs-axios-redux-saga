@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as UserActions from '../store/actions/UserActions';
 import { Table, Button } from 'react-bootstrap';
-import { FaTrash, FaEdit, FaToggleOn, FaToggleOff } from 'react-icons/fa';
+import { FaToggleOn, FaToggleOff } from 'react-icons/fa';
+
 import {
     MDBBtn,
     MDBModal,
@@ -14,9 +15,7 @@ import {
     MDBModalFooter,
     MDBInput,
 } from 'mdb-react-ui-kit';
-import { toast } from 'react-toastify';
 
-// Fix for test
 const roles = [
     {
         id: 1,
@@ -30,143 +29,105 @@ const roles = [
 
 const Users = () => {
     const dispatch = useDispatch();
-    const users = useSelector(state => state.users.users);
+    const users = useSelector(state => state.users.users) || []; // Cập nhật: Loại bỏ totalPages và chỉ lấy users
+    const [isShowCreate, setIsShowCreate] = useState(false);
+    const [role, setRole] = useState('');
+    const [userName, setUserName] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
 
     useEffect(() => {
         dispatch(UserActions.getUsersRequest());
     }, [dispatch]);
 
-    const [isShowCreate, setIsShowCreate] = useState(false);
-    const [isShowEdit, setIsShowEdit] = useState(false);
-    const [userFrom, setUserForm] = useState({});
-
     const toggleOpenCreate = () => {
-
-    }
-
-    const handleChangeRole = () => {
-
+        setIsShowCreate(!isShowCreate);
     }
 
     const handleCreateUser = () => {
-        console.log('create user', userFrom)
-    }
+        if (userName.trim()) {
+            dispatch(UserActions.addUserRequest({ username: userName.trim(), password, email, role }));
+            toggleOpenCreate();
+        } else {
+            console.log("Please enter a valid username.");
+        }
+    };
 
-    const handleChangeFullName = (e) => setUserForm({ ...userFrom, fullName: e.target.value });
-    const handleChangeUsername = (e) => setUserForm({ ...userFrom, username: e.target.value });
-    const handleChangePassword = (e) => setUserForm({ ...userFrom, password: e.target.value });
-    const handleChangeEmail = (e) => setUserForm({ ...userFrom, email: e.target.value });
+    const handleChangeRole = (e) => setRole(e.target.value);
+    const handleChangeUsername = (e) => setUserName(e.target.value);
+    const handleChangePassword = (e) => setPassword(e.target.value);
+    const handleChangeEmail = (e) => setEmail(e.target.value);
 
     return (
         <div>
             <div className="d-flex justify-content-end mb-4">
                 <Button variant="primary" onClick={toggleOpenCreate}>+ Add User</Button>
             </div>
-            <Table striped bordered hover>
+            <Table striped bordered hover className='bg-white'>
                 <thead>
                     <tr>
-                        <th className="bg-secondary">User Id</th>
-                        <th className="bg-secondary">FullName</th>
-                        <th className="bg-secondary">Username</th>
-                        <th className="bg-secondary">Email</th>
-                        <th className="bg-secondary">Actions</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>User ID</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Role</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Username</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Email</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Status</th>
+                        <th style={{ backgroundColor: "#df6474", fontWeight: "bold" }}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {users && users.map((user) => (
-                        <tr key={user.id}>
+                    {users.map((user) => ( 
+                        <tr key={user.id}> 
                             <td>{user.id}</td>
-                            <td>{user.fullName}</td>
+                            <td>{user.roleSet && user.roleSet.length > 0 ? user.roleSet[0].roleName : 'No Role'}</td>
                             <td>{user.username}</td>
                             <td>{user.email}</td>
                             <td style={{ color: user.status ? 'blue' : 'red' }}>
                                 {user.status ? 'Active' : 'Inactive'}
                             </td>
                             <td>
-                                {user?.status ? (
-                                    // toggle icon
-                                    <FaToggleOn onClick={() => dispatch(UserActions.toggleUserStatusRequest(user.id))} style={{ cursor: 'pointer', color: 'blue', fontSize: '24px' }} />) : (
-                                    <FaToggleOff onClick={() => dispatch(UserActions.toggleUserStatusRequest(user.id))} style={{ cursor: 'pointer', color: 'grey', fontSize: '24px', marginLeft: '6px' }} />)}
-
-                                {/* delete icon */}
-                                <FaTrash onClick={() => dispatch(UserActions.deleteUserRequest(user.id))} style={{ color: 'red', cursor: 'pointer', fontSize: '18px', margin: '0 8px' }} />
+                                {user.status ? (
+                                    <FaToggleOn onClick={() => dispatch(UserActions.toggleUserStatusRequest(user.id))} style={{ cursor: 'pointer', color: 'blue', fontSize: '24px' }} />
+                                ) : (
+                                    <FaToggleOff onClick={() => dispatch(UserActions.toggleUserStatusRequest(user.id))} style={{ cursor: 'pointer', color: 'grey', fontSize: '24px', marginLeft: '6px' }} />
+                                )}
                             </td>
+
                         </tr>
                     ))}
                 </tbody>
             </Table>
-
-            {/* Modal Thêm Mới Sản Phẩm */}
-            <MDBModal open={isShowCreate} tabIndex='-1'>
-                <MDBModalDialog>
+             {/* Modal for Adding New User */}
+                <MDBModal show={isShowCreate} setShow={setIsShowCreate} tabIndex='-1'>
+                    <MDBModalDialog>
                     <MDBModalContent>
-                        <MDBModalHeader>
-                            <MDBModalTitle>Add New User</MDBModalTitle>
-                            <MDBBtn className='btn-close' color='none' onClick={toggleOpenCreate}></MDBBtn>
-                        </MDBModalHeader>
-                        {/* Body */}
-                        <MDBModalBody>
-                            {/* Catgory name*/}
-                            <select className="browser-default custom-select mb-3 p-1" onChange={handleChangeRole}>
-                                <option>Choose role</option>
-                                {roles.map(role => (
-                                    <option key={role.id} value={role.id}>{role.roleName}</option>))}
-                            </select>
-                            {/* Product name */}
-                            <MDBInput
-                                label="Full Name"
-                                id="addFullName"
-                                type="text"
-                                className="mb-3"
-                                value={userFrom.fullName}
-                                onChange={handleChangeFullName}
-                            />
-                            {/*Description  */}
-                            <MDBInput
-                                label="Username"
-                                id="addUsername"
-                                type="textarea"
-                                className="mb-3"
-                                value={userFrom.username}
-                                onChange={handleChangeUsername}
-                            />
-                            {/* Price */}
-                            <MDBInput
-                                label="Password"
-                                id="addPassword"
-                                type="password"
-                                className="mb-3"
-                                value={userFrom.password}
-                                onChange={handleChangePassword}
-                            />
-                            {/*Quantity  */}
-                            <MDBInput
-                                label="Email"
-                                id="addEmail"
-                                type="email"
-                                className="mb-3"
-                                value={userFrom.email}
-                                onChange={handleChangeEmail}
-                            />
-
-
-                        </MDBModalBody>
-                        {/* Footer */}
-                        <MDBModalFooter>
-                            <MDBBtn color='secondary' onClick={toggleOpenCreate}>
-                                Close
-                            </MDBBtn>
-                            <MDBBtn onClick={handleCreateUser}>
-                                Add User
-                            </MDBBtn>
-                        </MDBModalFooter>
-                    </MDBModalContent>
-                </MDBModalDialog>
-            </MDBModal>
-        </div>
+                    <MDBModalHeader>
+                    <MDBModalTitle>Add New User</MDBModalTitle>
+                    <MDBBtn className='btn-close' color='none' onClick={toggleOpenCreate}></MDBBtn>
+                    </MDBModalHeader>   
+                <MDBModalBody>
+              {/* Role selection */}
+              <select className="browser-default custom-select mb-3 p-1" onChange={handleChangeRole}>
+                <option>Choose role</option>
+                {roles.map(role => (
+                  <option key={role.id} value={role.id}>{role.roleName}</option>
+                ))}
+              </select>
+              {/* Username input */}
+              <MDBInput label="Username" id="addUsername" type="text" className="mb-3" value={userName} onChange={handleChangeUsername} />
+              {/* Password input */}
+              <MDBInput label="Password" id="addPassword" type="password" className="mb-3" value={password} onChange={handleChangePassword} />
+              {/* Email input */}
+              <MDBInput label="Email" id="addEmail" type="email" className="mb-3" value={email} onChange={handleChangeEmail} />
+            </MDBModalBody>
+            <MDBModalFooter>
+              <MDBBtn color='secondary' onClick={toggleOpenCreate}>Close</MDBBtn>
+              <MDBBtn onClick={handleCreateUser}>Add User</MDBBtn>
+            </MDBModalFooter>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
+    </div>
     );
 };
 
 export default Users;
-
-

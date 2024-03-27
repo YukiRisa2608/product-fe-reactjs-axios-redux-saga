@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { FaUser } from 'react-icons/fa';
+import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import storageService from '../utils/storage.service';
@@ -17,6 +19,7 @@ function Navbar(props) {
     const [isLogin, setIsLogin] = useState(false);
     const [searchContent, setSearchContent] = useState("");
     const [user, setUser] = useState({});
+
 
     let navigateCart = () => {
         navigate('../customer/cart')
@@ -42,12 +45,12 @@ function Navbar(props) {
     const isShowCart = isLogin && !window.location.href.includes('cart') && !window.location.href.includes('admin')
 
     return (
-        <MDBRow className=" py-5" style={{ backgroundColor: "#fdccbc" }} >
+        <MDBRow className=" py-5" style={{ backgroundColor: "white" }} >
 
-            <div class="d-flex flex-row justify-content-between pe-5 gap-3 padding-left 3"  >
+            <div class="d-flex flex-row justify-content-between pe-5 gap-3 padding-left 3 bg-white"  >
                 {/* Filler category */}
                 <MDBDropdown>
-                    <MDBDropdownToggle>Filter by Category</MDBDropdownToggle>
+                    <MDBDropdownToggle style={{ backgroundColor: "#df6474" }}>Filter by Category</MDBDropdownToggle>
                     <MDBDropdownMenu>
                         <MDBDropdownItem link>Action</MDBDropdownItem>
                         <MDBDropdownItem link>Another action</MDBDropdownItem>
@@ -57,7 +60,7 @@ function Navbar(props) {
 
                 {/* Sort by price */}
                 <MDBDropdown>
-                    <MDBDropdownToggle>Sort by Price</MDBDropdownToggle>
+                    <MDBDropdownToggle style={{ backgroundColor: "#df6474" }}>Sort by Price</MDBDropdownToggle>
                     <MDBDropdownMenu>
                         <MDBDropdownItem link>Action</MDBDropdownItem>
                         <MDBDropdownItem link>Another action</MDBDropdownItem>
@@ -69,7 +72,7 @@ function Navbar(props) {
                 {props.handleSearch &&
                     <MDBInputGroup>
                         <MDBInput value={searchContent} label='Search' onChange={(event) => { setSearchContent(event.target.value) }} />
-                        <MDBBtn onClick={props.handleSearch} rippleColor='dark'>
+                        <MDBBtn style={{ backgroundColor: "#df6474" }} onClick={props.handleSearch} rippleColor='dark'>
                             <MDBIcon icon='search' />
                         </MDBBtn>
                     </MDBInputGroup>
@@ -78,7 +81,7 @@ function Navbar(props) {
                 {/* Cart */}
                 {isShowCart &&
                     // <button onClick={navigateCart}>Cart </button>
-                    <MDBBtn onClick={navigateCart}>
+                    <MDBBtn style={{ backgroundColor: "#df6474" }} onClick={navigateCart}>
                         <MDBIcon fas icon="shopping-cart" />
                     </MDBBtn>
                 }
@@ -86,10 +89,15 @@ function Navbar(props) {
 
                 {isLogin ? (
                     <>
-                        <span>{user.username}</span>
-                        <MDBBtn onClick={handleLogout}>
+                        <MDBBtn style={{ backgroundColor: "#df6474" }} onClick={handleLogout}>
                             <MDBIcon fas icon="sign-out-alt" />
                         </MDBBtn>
+                        {/* Avatar */}
+                        <Button  variant="primary" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor: "#df6474" }}>
+                            <FaUser style={{ marginRight: '5px' }} />
+                            {user.username}
+                        </Button>
+
                     </>
                 ) : (
                     <MDBBtn onClick={handleLogin}>

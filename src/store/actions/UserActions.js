@@ -62,4 +62,3 @@ export const addUserFailure = (error) => ({
     type: UserTypes.ADD_USER_FAILURE,
     payload: error,
 });
-
