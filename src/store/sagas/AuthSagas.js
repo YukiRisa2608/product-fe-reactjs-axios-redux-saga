@@ -4,6 +4,7 @@ import * as AuthActions from '../actions/AuthActions';
 import * as AuthTypes from "../types/AuthTypes";
 import { AuthKeys } from "../../utils/constant";
 
+//log-in
 function* loginSaga(action) {
     try {
         const response = yield call(api.login, action.payload);
@@ -24,6 +25,7 @@ function* loginSaga(action) {
     }
 }
 
+//log-out
 function* logoutSaga() {
     try {
         yield put(AuthActions.logoutSuccess());
@@ -32,6 +34,7 @@ function* logoutSaga() {
     }
 }
 
+//sign-up
 function* signupSaga(action) {
     try {
         const response = yield call(api.signup, action.payload);
@@ -41,10 +44,12 @@ function* signupSaga(action) {
     }
 }
 
+//watch 
 function* watchAuthSaga() {
     yield takeEvery(AuthTypes.LOGIN_REQUEST, loginSaga);
     yield takeEvery(AuthTypes.LOGOUT_REQUEST, logoutSaga);
     yield takeEvery(AuthTypes.SIGNUP_REQUEST, signupSaga);
 }
 
+// Xuất saga chính để sử dụng trong redux store
 export default watchAuthSaga;

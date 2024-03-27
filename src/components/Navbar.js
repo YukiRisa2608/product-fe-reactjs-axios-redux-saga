@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import storageService from '../utils/storage.service';
 import { AuthKeys } from '../utils/constant';
 import * as AuthActions from '../store/actions/AuthActions';
-import { MDBRow, MDBInputGroup, MDBInput, MDBIcon, MDBBtn } from "mdb-react-ui-kit";
+import { MDBRow, MDBInputGroup, MDBInput, MDBIcon, MDBBtn, MDBDropdownItem, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu } from "mdb-react-ui-kit";
 
 
 // Trong component thì nên viết function.
@@ -16,6 +16,7 @@ function Navbar(props) {
     const { data } = useSelector(state => state.auth || {});
     const [isLogin, setIsLogin] = useState(false);
     const [searchContent, setSearchContent] = useState("");
+    const [user, setUser] = useState({});
 
     let navigateCart = () => {
         navigate('../customer/cart')
@@ -32,6 +33,7 @@ function Navbar(props) {
 
     useEffect(() => {
         setIsLogin(storageService.get(AuthKeys.LOGGED_IN) === 'true')
+        setUser(JSON.parse(storageService.get(AuthKeys.CURRENT_USER)))
     }, [data]);
 
     // handleSearch
@@ -40,27 +42,60 @@ function Navbar(props) {
     const isShowCart = isLogin && !window.location.href.includes('cart') && !window.location.href.includes('admin')
 
     return (
-        <MDBRow className="bg-danger py-5" >
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 50 }}>
-                <h2>Navbar</h2>
-                <div style={{display: 'flex', flexDirection:'row'}}>
-                    {props.handleSearch && 
+        <MDBRow className=" py-5" style={{ backgroundColor: "#fdccbc" }} >
+
+            <div class="d-flex flex-row justify-content-between pe-5 gap-3 padding-left 3"  >
+                {/* Filler category */}
+                <MDBDropdown>
+                    <MDBDropdownToggle>Filter by Category</MDBDropdownToggle>
+                    <MDBDropdownMenu>
+                        <MDBDropdownItem link>Action</MDBDropdownItem>
+                        <MDBDropdownItem link>Another action</MDBDropdownItem>
+                        <MDBDropdownItem link>Something else here</MDBDropdownItem>
+                    </MDBDropdownMenu>
+                </MDBDropdown>
+
+                {/* Sort by price */}
+                <MDBDropdown>
+                    <MDBDropdownToggle>Sort by Price</MDBDropdownToggle>
+                    <MDBDropdownMenu>
+                        <MDBDropdownItem link>Action</MDBDropdownItem>
+                        <MDBDropdownItem link>Another action</MDBDropdownItem>
+                        <MDBDropdownItem link>Something else here</MDBDropdownItem>
+                    </MDBDropdownMenu>
+                </MDBDropdown>
+
+                {/* Search */}
+                {props.handleSearch &&
                     <MDBInputGroup>
-                        <MDBInput value={searchContent} label='Search' onChange={(event) => {setSearchContent(event.target.value)}} />
+                        <MDBInput value={searchContent} label='Search' onChange={(event) => { setSearchContent(event.target.value) }} />
                         <MDBBtn onClick={props.handleSearch} rippleColor='dark'>
                             <MDBIcon icon='search' />
                         </MDBBtn>
                     </MDBInputGroup>
-                    }
+                }
 
-                    {isShowCart &&
-                        <button onClick={navigateCart}>Cart </button>
-                    }
-                    {isLogin ?
-                        <button onClick={handleLogout}>Logout</button> :
-                        <button onClick={handleLogin}>Login</button>
-                    }
-                </div>
+                {/* Cart */}
+                {isShowCart &&
+                    // <button onClick={navigateCart}>Cart </button>
+                    <MDBBtn onClick={navigateCart}>
+                        <MDBIcon fas icon="shopping-cart" />
+                    </MDBBtn>
+                }
+                {/* Login / logout */}
+
+                {isLogin ? (
+                    <>
+                        <span>{user.username}</span>
+                        <MDBBtn onClick={handleLogout}>
+                            <MDBIcon fas icon="sign-out-alt" />
+                        </MDBBtn>
+                    </>
+                ) : (
+                    <MDBBtn onClick={handleLogin}>
+                        <MDBIcon fas icon="sign-in-alt" /> Login
+                    </MDBBtn>
+                )}
             </div>
         </MDBRow>
 

@@ -14,14 +14,12 @@ import 'react-toastify/dist/ReactToastify.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <BrowserRouter>
-    <React.StrictMode>
-      <Provider store={store}>
-        <App />
-        <ToastContainer autoClose={1000}/>
-      </Provider>
-    </React.StrictMode>
-  </BrowserRouter>
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+      <ToastContainer autoClose={1000} />
+    </Provider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -14,14 +14,19 @@ import {
     MDBTypography,
 } from "mdb-react-ui-kit";
 import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
+
 const Cart = () => {
     const dispatch = useDispatch();
-    const { loading, items = [], error } = useSelector(state => state.cart || {});
+    const navigate = useNavigate();
+    const { loading, items = [], error, orderId } = useSelector(state => state.cart || {});
+    const [isBuy, setIsBuy] = useState(false);
 
     const [totalMoney, setTotalMoney] = useState(0)
 
     useEffect(() => {
         dispatch(CartActions.getCartItemsRequest());
+        setIsBuy(false);
     }, [dispatch]);
 
     useEffect(() => {
@@ -48,6 +53,7 @@ const Cart = () => {
     //payment
     const handlePayment = () => {
         dispatch(CartActions.purchaseRequest({}));
+        setIsBuy(true);
     }
 
     // if (loading) return <div>Loading...</div>;
@@ -57,9 +63,15 @@ const Cart = () => {
         console.log(`search in cart with key ${keyword}`)
     }
 
+    useEffect(() => {
+        if (orderId && isBuy) {
+            navigate(`/customer/order?id=${orderId}`)
+        }
+    }, [orderId]);
+
     return (
         <>
-        <Navbar handleSearch={handleSearch}/>
+            <Navbar handleSearch={handleSearch} />
             <section className="h-100" >
                 <MDBContainer fluid className="py-3 ">
                     <MDBRow className="justify-content-center align-items-center h-100">

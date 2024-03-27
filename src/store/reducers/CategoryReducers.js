@@ -7,6 +7,8 @@ const initialState = {
 
 const categoriesReducer = (state = initialState, action) => {
     switch (action.type) { 
+        
+        //get all
         case CategoryTypes.GET_CATEGORIES_REQUEST: 
             return {
                 ...state,
@@ -18,6 +20,7 @@ const categoriesReducer = (state = initialState, action) => {
                 categories: action.payload,
                 loading: false,
             };
+
         // delete
         case CategoryTypes.DELETE_CATEGORY_SUCCESS:
             return {
@@ -25,6 +28,7 @@ const categoriesReducer = (state = initialState, action) => {
                 // Lọc ra category không bị xóa
                 categories: state.categories.filter(category => category.id !== action.payload),
             };
+
         //toggle
         case CategoryTypes.TOGGLE_CATEGORY_STATUS_SUCCESS:
             return {

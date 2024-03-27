@@ -41,16 +41,14 @@ const Login = () => {
     // }, []);
 
     useEffect(() => {
-        setTimeout(() => {
-            if (redirectTo) {
-                navigate(redirectTo);
-            }
-        }, 500)
+        if (redirectTo) {
+            navigate(redirectTo);
+        }
     }, [redirectTo]);
 
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    // if (loading) return <div>Loading...</div>;
+    // if (error) return <div>Error: {error}</div>;
 
     return (
         <MDBContainer className="p-3 my-5 d-flex flex-column w-50">

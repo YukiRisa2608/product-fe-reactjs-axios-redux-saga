@@ -16,7 +16,7 @@ const authReducer = (state = initialState, action) => {
         case AuthTypes.LOGIN_REQUEST:
             return { ...state, loading: true };
         case AuthTypes.LOGIN_SUCCESS:
-            // Save info log
+            // Save info log in storage
             let user = action.payload.data;
             storageService.set(AuthKeys.ACCESS_TOKEN, user?.accessToken);
             storageService.set(AuthKeys.LOGGED_IN, true);

@@ -29,9 +29,6 @@ const OrderDetail = () => {
 
     console.log("data: ", data)
 
-
-
-
     return (
         <>
             <section className="h-100" >
@@ -46,18 +43,21 @@ const OrderDetail = () => {
                                     <div>
                                         {
                                             data.listProduct.map((item) => {
-                                                return <p>{JSON.parse(item).productName}</p>
+                                                let pItem = JSON.parse(item);
+                                                return <div>
+                                                    <span>{pItem.productName} </span>
+                                                    <span>{pItem.quantity} </span>
+                                                </div>
                                             })
                                         }
                                     </div>
-                                    <p>money: {data.money}</p>
                                     <p>createdDate: {data.createdDate}</p>
                                 </>
                             )}
                             <div className="d-flex justify-content-end">
                                 <p className="mb-0 me-5 d-flex align-items-center">
                                     <span className="small text-muted me-2">Order total:</span>
-                                    <span className="lead fw-normal">${totalMoney}
+                                    <span className="lead fw-normal">${data.money}
                                     </span>
                                 </p>
                             </div>

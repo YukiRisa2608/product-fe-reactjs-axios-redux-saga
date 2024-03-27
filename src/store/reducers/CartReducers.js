@@ -4,6 +4,7 @@ const initialState = {
     loading: false,
     items: [],
     error: null,
+    orderId: null
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -12,7 +13,7 @@ const cartReducer = (state = initialState, action) => {
         case CartTypes.GET_ITEM_CART_REQUEST:
             return { ...state, loading: true };
         case CartTypes.GET_ITEM_CART_SUCCESS:
-            return { ...state, loading: false, items: action.payload.data };
+            return { ...state, loading: false, items: action.payload.data, };
         case CartTypes.GET_ITEM_CART_FAILURE:
             return { ...state, loading: false, error: action.payload };
 
@@ -35,11 +36,11 @@ const cartReducer = (state = initialState, action) => {
         case CartTypes.PURCHASE_CART_REQUEST:
             return { ...state, loading: true };
         case CartTypes.PURCHASE_CART_SUCCESS:
-            return { ...state, loading: false };
+            return { ...state, loading: false, orderId: action.payload.data.id };
         case CartTypes.PURCHASE_CART_FAILURE:
             return { ...state, loading: false, error: action.payload };
 
-        //purchase    
+        //add to cart    
         case CartTypes.ADD_TO_CART_REQUEST:
             return { ...state, loading: true };
         case CartTypes.ADD_TO_CART_SUCCESS:

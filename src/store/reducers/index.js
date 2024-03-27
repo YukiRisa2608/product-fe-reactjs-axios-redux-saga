@@ -5,6 +5,7 @@ import products from "./ProductReducers";
 import carts from "./CartReducers";
 import authReducer from "./AuthReducers";
 import orderReducer from "./OrderReducers";
+import usersReducer from "./UserReducers";
 
 export default combineReducers({
     home,
@@ -12,5 +13,6 @@ export default combineReducers({
     products,
     carts,
     authReducer,
-    orderReducer
+    orderReducer, 
+    usersReducer
 });

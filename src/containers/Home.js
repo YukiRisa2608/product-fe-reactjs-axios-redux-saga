@@ -7,6 +7,10 @@ import Button from 'react-bootstrap/Button';
 import { MDBPagination, MDBPaginationItem, MDBPaginationLink, MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem } from 'mdb-react-ui-kit';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import storageService from '../utils/storage.service';
+import { AuthKeys } from '../utils/constant';
+
 
 const Home = () => {
 	const dispatch = useDispatch();
@@ -21,8 +25,12 @@ const Home = () => {
 	}, [dispatch, currentPage]);
 
 	const handleAddToCart = (product) => {
-		console.log(product);
-		dispatch(CartActions.addToCartRequest({ productId: product.productId }))
+		if (storageService.get(AuthKeys.LOGGED_IN) == 'false') {
+			console.log("navigate login")
+			navigate('/login')
+		} else {
+			dispatch(CartActions.addToCartRequest({ productId: product.productId }))
+		}
 	}
 
 	const handleSearch = (keyword) => {
@@ -35,7 +43,7 @@ const Home = () => {
 	return (
 		<div>
 			<Navbar handleSearch={handleSearch} />
-			<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+			<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', backgroundColor: "white" }}>
 				{(products && products.length > 0) ? products.map((product, index) => (
 					<Card key={index} style={{ width: '18rem', margin: '10px' }}>
 						<Card.Img variant="top" src={product.imgUrl} alt={product.productName} />
@@ -48,8 +56,9 @@ const Home = () => {
 				)) : <p>Your products are empty!</p>}
 			</div>
 
-			{totalPages > 1 && (
-				<nav aria-label='Page navigation'>
+			{/* Pagination */}
+			{/* {totalPages > 1 && (
+				<nav className=" py-5" aria-label='Page navigation' style={{ backgroundColor: "#fdccbc" }}>
 					<MDBPagination className='mb-0'>
 						<MDBPaginationItem disabled={currentPage <= 1}>
 							<MDBPaginationLink onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}>
@@ -70,9 +79,10 @@ const Home = () => {
 						</MDBPaginationItem>
 					</MDBPagination>
 				</nav>
-			)}
-
-			{/* <button onClick={handleLogout} >Logout</button> */}
+			)} */}
+			<div>
+				<Footer currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
+			</div>
 		</div>
 	);
 };
