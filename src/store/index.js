@@ -8,6 +8,7 @@ import cartReducer from './reducers/CartReducers';
 import authReducer from './reducers/AuthReducers';
 import orderReducer from './reducers/OrderReducers';
 import usersReducer from './reducers/UserReducers';
+import roleReducer from './reducers/RoleReducers';
 
 const rootReducer = combineReducers({
   categories: categoriesReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   auth: authReducer,
   order: orderReducer,
-  users: usersReducer
+  users: usersReducer,
+  role: roleReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();

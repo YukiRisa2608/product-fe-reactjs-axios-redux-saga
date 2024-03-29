@@ -13,7 +13,6 @@ const usersReducer = (state = initialState, action) => {
                 loading: true,
             };
         case UserTypes.GET_USERS_SUCCESS:
-            console.log("UserTypes.GET_USERS_SUCCESS:", action.payload)
             return {
                 ...state,
                 users: action.payload,

@@ -3,6 +3,7 @@ import * as ProductTypes from "../types/ProductTypes";
 const initialState = {
     products: [],
     loading: false,
+    totalPages: 0,
 };
 
 const productsReducer = (state = initialState, action) => {
@@ -54,6 +55,26 @@ const productsReducer = (state = initialState, action) => {
 
         case ProductTypes.EDIT_PRODUCT_FAILURE:
             return { ...state, loading: false };
+
+        // Search product
+        case ProductTypes.SEARCH_PRODUCT_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case ProductTypes.SEARCH_PRODUCT_SUCCESS:
+            return {
+                ...state,
+                products: action.payload.data,
+                totalPages: action.payload.pages,
+                loading: false,
+            }
+        case ProductTypes.SEARCH__PRODUCT_FAILURE:
+            return {
+                ...state,
+                loading: false,
+            };
+
 
         default:
             return state;

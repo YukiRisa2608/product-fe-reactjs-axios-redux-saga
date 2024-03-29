@@ -57,3 +57,12 @@ export const updateProduct = async (productId, payload) => {
     });
     return response.data;
 };
+
+// Search product
+export const searchProduct = async (payload) => {
+    const response = await new HttpService().get(`/admin/products/search`, {
+        params: payload
+    })
+    console.log("Call API response: ", response.data)
+    return response.data;
+}

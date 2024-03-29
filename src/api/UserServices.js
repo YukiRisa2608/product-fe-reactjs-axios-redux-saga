@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import HttpService from "../utils/http-service";
 
 //get all
@@ -12,6 +13,11 @@ export const addUser = async (payload) => {
         body: payload
     })
 
+    if (response.data.statusError !== "SUCEESS") {
+        toast.error(response.data.message)
+        return {}
+    }
+    toast.success("Add new user successfully")
     return response.data;
 };
 

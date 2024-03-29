@@ -6,6 +6,7 @@ import carts from "./CartReducers";
 import authReducer from "./AuthReducers";
 import orderReducer from "./OrderReducers";
 import usersReducer from "./UserReducers";
+import roleReducer from "./RoleReducers";
 
 export default combineReducers({
     home,
@@ -14,5 +15,6 @@ export default combineReducers({
     carts,
     authReducer,
     orderReducer, 
-    usersReducer
+    usersReducer, 
+    roleReducer
 });

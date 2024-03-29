@@ -104,18 +104,18 @@ const Categories = () => {
                         <tr key={category?.id}>
                             <td>{category?.id}</td>
                             <td>{category?.categoryName}</td>
-                            <td style={{ color: category?.status ? 'blue' : 'red' }}>
+                            <td style={{ color: category?.status ? 'black' : 'red' }}>
                                 {category?.status ? "Active" : "Inactive"}
                             </td>
                             <td>
                             {category?.status ? (
                                 // toggle icon
-                                <FaToggleOn onClick={() => dispatch(CategoryActions.toggleCategoryStatusRequest(category.id))} style={{ cursor: 'pointer', color: 'blue', fontSize: '24px' }} />) : (
+                                <FaToggleOn onClick={() => dispatch(CategoryActions.toggleCategoryStatusRequest(category.id))} style={{ cursor: 'pointer', color: 'df6474', fontSize: '24px' }} />) : (
                                 <FaToggleOff onClick={() => dispatch(CategoryActions.toggleCategoryStatusRequest(category.id))} style={{ cursor: 'pointer', color: 'grey', fontSize: '24px', marginLeft: '6px' }} />)}
                                 {/* edit icon */}
-                                <FaEdit style={{color: 'green', cursor: 'pointer', fontSize: '18px', marginLeft: '8px'}}onClick={() => openEditModal(category)}/>
+                                <FaEdit style={{color: 'df6474', cursor: 'pointer', fontSize: '18px', marginLeft: '8px'}}onClick={() => openEditModal(category)}/>
                                 {/* delete icon */}
-                                <FaTrash style={{ color: 'red', cursor: 'pointer', marginLeft: '8px' }} onClick={() => dispatch(CategoryActions.deleteCategoryRequest(category.id))}/>
+                                <FaTrash style={{ color: 'df6474', cursor: 'pointer', marginLeft: '8px' }} onClick={() => dispatch(CategoryActions.deleteCategoryRequest(category.id))}/>
                                 
                             </td>
                         </tr>

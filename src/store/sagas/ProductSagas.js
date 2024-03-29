@@ -61,6 +61,15 @@ function* editProductSaga(action) {
     }
 }
 
+//search product
+function* searchProductsSaga({ payload }) {
+    try {
+        const products = yield call(api.searchProduct, payload);
+        yield put(ProductActions.searchProductSuccess(products));
+    } catch (error) {
+        yield put(ProductActions.searchProductFailure(error.message));
+    }
+}
 
 
 //watcher saga
@@ -70,5 +79,5 @@ export default function* productsWatcherSaga() {
     yield takeLatest(ProductTypes.TOGGLE_PRODUCT_STATUS_REQUEST, toggleProductStatusSaga);
     yield takeLatest(ProductTypes.ADD_PRODUCT_REQUEST, addProductSaga);
     yield takeLatest(ProductTypes.EDIT_PRODUCT_REQUEST, editProductSaga);
-
+    yield takeLatest(ProductTypes.SEARCH_PRODUCT_REQUEST, searchProductsSaga);
 }

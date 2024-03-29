@@ -1,3 +1,9 @@
+//render home
 export const GET_HOME_ITEMS_REQUEST = 'GET_HOME_ITEMS_REQUEST';
 export const GET_HOME_ITEMS_SUCCESS = 'GET_HOME_ITEMS_SUCCESS';
 export const GET_HOME_ITEMS_FAILURE = 'GET_HOME_ITEMS_FAILURE';
+
+//sort by price
+export const GET_SORT_REQUEST = 'GET_SORT_REQUEST';
+export const GET_SORT_SUCCESS = 'GET_SORT_SUCCESS';
+export const GET_SORT_FAILURE = 'GET_SORT_FAILURE';

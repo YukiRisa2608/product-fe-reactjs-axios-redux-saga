@@ -186,18 +186,18 @@ const Products = () => {
                             <td>{product.description}</td>
                             <td>{product.price}</td>
                             <td>{product.quantity}</td>
-                            <td style={{ color: product.status ? 'blue' : 'red' }}>
+                            <td style={{ color: product.status ? 'black' : 'red' }}>
                                 {product.status ? 'Active' : 'Inactive'}
                             </td>
                             <td>
                                 {product?.status ? (
                                     // toggle icon
-                                    <FaToggleOn onClick={() => dispatch(ProductActions.toggleProductStatusRequest(product.productId))} style={{ cursor: 'pointer', color: 'blue', fontSize: '24px' }} />) : (
+                                    <FaToggleOn onClick={() => dispatch(ProductActions.toggleProductStatusRequest(product.productId))} style={{ cursor: 'pointer', color: '#df6474', fontSize: '24px' }} />) : (
                                     <FaToggleOff onClick={() => dispatch(ProductActions.toggleProductStatusRequest(product.productId))} style={{ cursor: 'pointer', color: 'grey', fontSize: '24px', marginLeft: '6px' }} />)}
                                 {/* edit icon */}
-                                <FaEdit style={{ color: 'green', cursor: 'pointer', fontSize: '18px', marginLeft: '8px' }} onClick={() => openEditModal(product)} />
+                                <FaEdit style={{ color: '#df6474', cursor: 'pointer', fontSize: '18px', marginLeft: '8px' }} onClick={() => openEditModal(product)} />
                                 {/* delete icon */}
-                                <FaTrash onClick={() => dispatch(ProductActions.deleteProductRequest(product.productId))} style={{ color: 'red', cursor: 'pointer', fontSize: '18px', margin: '0 8px' }} />
+                                <FaTrash onClick={() => dispatch(ProductActions.deleteProductRequest(product.productId))} style={{ color: '#df6474', cursor: 'pointer', fontSize: '18px', margin: '0 8px' }} />
                             </td>
                         </tr>
                     ))}

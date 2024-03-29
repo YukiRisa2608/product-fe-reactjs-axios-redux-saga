@@ -81,3 +81,19 @@ export const editProductFailure = (error) => ({
     type: ProductTypes.EDIT_PRODUCT_FAILURE,
     payload: error,
 });
+
+// search product
+export const searchProductRequest = (payload) => ({
+    type: ProductTypes.SEARCH_PRODUCT_REQUEST,
+    payload: payload,
+});
+
+export const searchProductSuccess = (products) => ({
+    type: ProductTypes.SEARCH_PRODUCT_SUCCESS,
+    payload: products,
+});
+
+export const searchProductFailure = (error) => ({
+    type: ProductTypes.SEARCH__PRODUCT_FAILURE,
+    payload: error,
+});
