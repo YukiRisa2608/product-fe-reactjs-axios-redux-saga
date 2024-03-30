@@ -30,11 +30,15 @@ const Cart = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        setTotalMoney(
-            items.reduce((acc, current) => {
-                return acc + current.product.price * current.quantity
-            }, 0)
-        )
+        if (items) {
+            setTotalMoney(
+                items.reduce((acc, current) => {
+                    return acc + current.product.price * current.quantity
+                }, 0)
+            )
+        } else {
+            setTotalMoney(0)
+        }
     }, [items, dispatch]);
 
     //delete
@@ -71,7 +75,7 @@ const Cart = () => {
 
     return (
         <>
-            <Navbar handleSearch={handleSearch} />
+            {/* <Navbar handleSearch={handleSearch} /> */}
             <section className="h-100" >
                 <MDBContainer fluid className="py-3 ">
                     <MDBRow className="justify-content-center align-items-center h-100">
@@ -124,7 +128,7 @@ const Cart = () => {
                                 </p>
                             </div>
                             <div className="d-flex justify-content-end">
-                                <MDBBtn color="light" size="lg" className="me-2">
+                                <MDBBtn color="light" size="lg" className="me-2" onClick={() => navigate("/home")}>
                                     Continue shopping
                                 </MDBBtn>
                                 <MDBBtn size="lg" onClick={handlePayment}>BUY NOW</MDBBtn>

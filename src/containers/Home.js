@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as CartActions from '../store/actions/CartActions';
 import * as ProductActions from '../store/actions/ProductActions';
+import * as HomeActions from '../store/actions/HomeActions';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +17,7 @@ const Home = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [currentPage, setCurrentPage] = React.useState(1);
-	const { loading, products = [], totalPages, error } = useSelector(state => state.products || {});
+	const { loading, products = [], totalPages, error } = useSelector(state => state.home || {});
 
 	const [searchPayload, setSearchPayload] = useState({
 		keyword: '',
@@ -30,7 +31,7 @@ const Home = () => {
 
 	//render 
 	useEffect(() => {
-		dispatch(ProductActions.searchProductRequest({ ...searchPayload, page: searchPayload.page - 1 }));
+		dispatch(HomeActions.searchProductsRequest({ ...searchPayload, page: searchPayload.page - 1 }));
 		console.log("totalPages", totalPages)
 	}, [dispatch, currentPage, searchPayload]);
 

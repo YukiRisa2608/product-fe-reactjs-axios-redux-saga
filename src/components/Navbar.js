@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import storageService from '../utils/storage.service';
 import { AuthKeys } from '../utils/constant';
 import * as AuthActions from '../store/actions/AuthActions';
-import * as CategoryActions from '../store/actions/CategoryActions';
+import * as HomeActions from '../store/actions/HomeActions';
 import { MDBRow, MDBInputGroup, MDBInput, MDBIcon, MDBBtn, MDBDropdownItem, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu } from "mdb-react-ui-kit";
 
 
@@ -14,10 +14,10 @@ import { MDBRow, MDBInputGroup, MDBInput, MDBIcon, MDBBtn, MDBDropdownItem, MDBD
 function Navbar({ handleChangeSearchPayload, searchPayload, handleSearch }) {
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const categories = useSelector(state => state.categories.categories);
+    const categories = useSelector(state => state.home.categories);
 
     useEffect(() => {
-        dispatch(CategoryActions.getCategoriesRequest());
+        dispatch(HomeActions.getListCategoriesRequest());
     }, [dispatch]);
 
     const { data } = useSelector(state => state.auth || {});
@@ -47,6 +47,8 @@ function Navbar({ handleChangeSearchPayload, searchPayload, handleSearch }) {
 
     const isShowCart = isLogin && !window.location.href.includes('cart') && !window.location.href.includes('admin')
 
+    console.log(categories)
+
     return (
         <MDBRow className=" py-5" style={{ backgroundColor: "white" }} >
 
@@ -54,13 +56,13 @@ function Navbar({ handleChangeSearchPayload, searchPayload, handleSearch }) {
                 {/* Filler category */}
                 <MDBDropdown>
                     <MDBDropdownToggle style={{ backgroundColor: "#df6474" }}>
-                        {searchPayload.categoryId ? searchPayload.categoryName : 'Filter by Category'}
+                        {searchPayload?.categoryId ? searchPayload?.categoryName : 'Filter by Category'}
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
                         {categories && categories.length > 0 && categories.map((category, index) => (
                             <MDBDropdownItem
-                                onClick={() => handleChangeSearchPayload({ ...searchPayload, categoryId: category.id, categoryName: category.categoryName })} link key={index}>
-                                {category.categoryName}
+                                onClick={() => handleChangeSearchPayload({ ...searchPayload, categoryId: category.id, categoryName: category?.categoryName })} link key={index}>
+                                {category?.categoryName}
                             </MDBDropdownItem>
                         ))}
                     </MDBDropdownMenu>
@@ -68,14 +70,14 @@ function Navbar({ handleChangeSearchPayload, searchPayload, handleSearch }) {
 
                 {/* Sort by price */}
                 <MDBDropdown>
-                    <MDBDropdownToggle style={{ backgroundColor: "#df6474" }}>{searchPayload.sortBy ? searchPayload.sortByLabel : 'Sort by Price'}</MDBDropdownToggle>
+                    <MDBDropdownToggle style={{ backgroundColor: "#df6474" }}>{searchPayload?.sortBy ? searchPayload.sortByLabel : 'Sort by Price'}</MDBDropdownToggle>
                     <MDBDropdownMenu>
                         {/* gọi handleSort trong home */}
-                        <MDBDropdownItem style={{ cursor: 'pointer' }}
+                        <MDBDropdownItem link style={{ cursor: 'pointer' }}
                             onClick={() => handleChangeSearchPayload({ ...searchPayload, sortBy: 'asc', sortByLabel: 'Ascending' })}>
                             Ascending
                         </MDBDropdownItem>
-                        <MDBDropdownItem style={{ cursor: 'pointer' }}
+                        <MDBDropdownItem link style={{ cursor: 'pointer' }}
                             onClick={() => handleChangeSearchPayload({ ...searchPayload, sortBy: 'desc', sortByLabel: 'Descending' })}>
                             Descending
                         </MDBDropdownItem>
@@ -84,7 +86,7 @@ function Navbar({ handleChangeSearchPayload, searchPayload, handleSearch }) {
 
                 {/* Search */}
                 <MDBInputGroup>
-                    <MDBInput value={searchPayload.keyword} label='Search'
+                    <MDBInput value={searchPayload?.keyword} label='Search'
                         onChange={(event) => { handleChangeSearchPayload({ ...searchPayload, keyword: event.target.value }) }} />
                     <MDBBtn style={{ backgroundColor: "#df6474" }} onClick={() => handleSearch()} rippleColor='dark'>
                         <MDBIcon icon='search' />
@@ -113,9 +115,7 @@ function Navbar({ handleChangeSearchPayload, searchPayload, handleSearch }) {
 
                     </>
                 ) : (
-                    <MDBBtn onClick={handleLogin}>
-                        <MDBIcon fas icon="sign-in-alt" /> Login
-                    </MDBBtn>
+                    <MDBBtn onClick={handleLogin} style={{ backgroundColor: '#df6474' }}> Login</MDBBtn>
                 )}
             </div>
         </MDBRow>

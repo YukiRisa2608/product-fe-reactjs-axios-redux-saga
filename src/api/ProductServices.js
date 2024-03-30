@@ -1,11 +1,17 @@
-import { instance } from ".";
+import { toast } from "react-toastify";
 import HttpService from "../utils/http-service";
 
 
 //get all
 export const getList = async (params) => {
-    let response = await instance.get("admin/products");
-    return response.data.data
+    let response = await new HttpService().get("admin/products");
+    console.log(response)
+    if (response.data.status === "SUCCESS") {
+        return response.data.data
+    }
+    toast.error(response.data.message);
+    return []
+
 };
 
 //add
@@ -21,20 +27,40 @@ export const addProduct = async (payload) => {
             'Content-Type': 'multipart/form-data'
         }
     });
-    return response.data;
+
+    if (response.data.status === "SUCCESS") {
+        toast.success("Add new product successfully")
+        return response.data.data
+    }
+
+    toast.error(response.data.message);
+    return {}
 };
 
 
 //delete
 export const deleteProduct = async (productId) => {
-    const response = await instance.delete(`admin/products/${productId}`);
-    return response.data
+    const response = await new HttpService().delete(`admin/products/${productId}`);
+
+    if (response.data.status === "SUCCESS") {
+        toast.success("Delete product successfully")
+        return response.data.data
+    }
+
+    toast.error(response.data.message);
+    return {}
 };
 
 //toggle
 export const toggleProductStatus = async (productId) => {
-    const response = await instance.post(`/admin/products/toggle-status/${productId}`);
-    return response.data;
+    const response = await new HttpService().post(`/admin/products/toggle-status/${productId}`);
+
+    if (response.data.status === "SUCCESS") {
+        return response.data.data
+    }
+
+    toast.error(response.data.message);
+    return {}
 };
 
 //edit
@@ -55,7 +81,13 @@ export const updateProduct = async (productId, payload) => {
             'Content-Type': 'multipart/form-data'
         }
     });
-    return response.data;
+
+    if (response.data.status === "SUCCESS") {
+        return response.data.data
+    }
+
+    toast.error(response.data.message);
+    return {}
 };
 
 // Search product
@@ -63,6 +95,11 @@ export const searchProduct = async (payload) => {
     const response = await new HttpService().get(`/admin/products/search`, {
         params: payload
     })
-    console.log("Call API response: ", response.data)
-    return response.data;
+
+    if (response.data.status === "SUCCESS") {
+        return response.data.data
+    }
+
+    toast.error(response.data.message);
+    return {}
 }

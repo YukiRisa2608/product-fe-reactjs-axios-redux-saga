@@ -35,19 +35,14 @@ const router = createBrowserRouter([
                 ],
             },
             {
-                path: "customer",
-                element: <DefaultLayout />,
+                path: "/customer/order",
+                element: <OrderDetail />,
                 loader: isAuthenticated,
-                children: [
-                    {
-                        path: 'cart',
-                        element: <Cart />,
-                    },
-                    {
-                        path: 'order',
-                        element: <OrderDetail />,
-                    }
-                ],
+            },
+            {
+                path: "/customer/cart",
+                element: <Cart />,
+                loader: isAuthenticated,
             },
         ],
     },

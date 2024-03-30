@@ -72,7 +72,7 @@ const Users = () => {
     return (
         <div>
             <div className="d-flex justify-content-end mb-4">
-                <Button variant="primary" onClick={toggleOpenCreate}>+ Add User</Button>
+                <Button style={{ backgroundColor: "#df6474" }} onClick={toggleOpenCreate}>+ Add User</Button>
             </div>
             <Table striped bordered hover className='bg-white'>
                 <thead>

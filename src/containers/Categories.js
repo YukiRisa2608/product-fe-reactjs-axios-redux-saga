@@ -88,7 +88,7 @@ const Categories = () => {
     return (
         <div>
             <div className="d-flex justify-content-end mb-4">
-                <Button variant="primary" onClick={toggleOpenCreate}>+ Add Category</Button>
+                <Button style={{ backgroundColor: "#df6474"}} onClick={toggleOpenCreate}>+ Add Category</Button>
             </div>
             <Table striped bordered hover className='bg-white'>
                 <thead>

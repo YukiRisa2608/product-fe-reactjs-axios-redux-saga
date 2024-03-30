@@ -51,13 +51,13 @@ const OrderDetail = () => {
                                             })
                                         }
                                     </div>
-                                    <p>createdDate: {data.createdDate}</p>
+                                    <p>createdDate: {data?.createdDate}</p>
                                 </>
                             )}
                             <div className="d-flex justify-content-end">
                                 <p className="mb-0 me-5 d-flex align-items-center">
                                     <span className="small text-muted me-2">Order total:</span>
-                                    <span className="lead fw-normal">${data.money}
+                                    <span className="lead fw-normal">${data?.money}
                                     </span>
                                 </p>
                             </div>

@@ -160,7 +160,7 @@ const Products = () => {
     return (
         <div className='bg-black'>
             <div className="d-flex justify-content-end mb-4">
-                <Button variant="primary" onClick={toggleOpenCreate}>+ Add Product</Button>
+                <Button style={{ backgroundColor: "#df6474" }} onClick={toggleOpenCreate}>+ Add Product</Button>
             </div>
             <Table striped bordered hover className='bg-white'>
                 <thead>

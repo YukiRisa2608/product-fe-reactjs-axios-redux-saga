@@ -7,7 +7,13 @@ export const login = async (payload) => {
     let response = await new HttpService().post('auth/sign-in', {
         body: payload
     });
-    return response?.data?.data;
+    if (response.data.status === "SUCCESS") {
+        toast.success("Login successfully")
+        return response.data.data
+    }
+
+    toast.error(response.data.message);
+    return {}
 };
 
 export const signup = async (payload) => {
