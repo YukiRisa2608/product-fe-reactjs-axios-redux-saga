@@ -28,7 +28,7 @@ const initForm = {
 
 const Users = () => {
     const dispatch = useDispatch();
-    const users = useSelector(state => state.users.users) || []; // Cập nhật: Loại bỏ totalPages và chỉ lấy users
+    const users = useSelector(state => state.users.users) || [];
     const roles = useSelector(state => state.role.roles) || [];
     const [isShowCreate, setIsShowCreate] = useState(false);
     const [userFrom, setUserFrom] = useState(initForm);

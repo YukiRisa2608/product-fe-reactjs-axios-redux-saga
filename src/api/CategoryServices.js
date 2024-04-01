@@ -1,4 +1,6 @@
 import HttpService from "../utils/http-service";
+import { toast } from "react-toastify";
+
 
 //get all
 export const getList = async (params) => {
@@ -13,6 +15,13 @@ export const addCategory = async (categoryName) => {
             categoryName
         }
     });
+    // return response.data;
+
+    if (response.data.statusError !== "SUCEESS") {
+        toast.error(response.data.message)
+        return {}
+    }
+    toast.success("Add new user successfully")
     return response.data;
 };
 

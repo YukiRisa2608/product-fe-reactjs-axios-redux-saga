@@ -128,10 +128,10 @@ const Cart = () => {
                                 </p>
                             </div>
                             <div className="d-flex justify-content-end">
-                                <MDBBtn color="light" size="lg" className="me-2" onClick={() => navigate("/home")}>
+                                <MDBBtn style={{ backgroundColor: "#df6474" }} size="lg" className="me-2" onClick={() => navigate("/home")}>
                                     Continue shopping
                                 </MDBBtn>
-                                <MDBBtn size="lg" onClick={handlePayment}>BUY NOW</MDBBtn>
+                                <MDBBtn size="lg" style={{ backgroundColor: "#df6474" }} onClick={handlePayment}>BUY NOW</MDBBtn>
                             </div>
                         </MDBCol>
                     </MDBRow>

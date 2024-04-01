@@ -22,8 +22,19 @@ export const updateQuantity = async (payload) => {
 
 //purchase
 export const purchase = async () => {
-    let response = await new HttpService().post('customer/carts/purchase');
-    return response.data;
+    try {
+        let response = await new HttpService().post('customer/carts/purchase');
+        if (response.data.success) {
+            toast.success(response.data.message);
+            return response.data;
+        } else {
+            toast.error(response.data.message);
+            return {};
+        }
+    } catch (error) {
+        toast.error("An error occurred during purchase");
+        return {};
+    }
 };
 
 // add to cart

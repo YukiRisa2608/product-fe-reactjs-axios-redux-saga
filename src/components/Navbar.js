@@ -10,7 +10,6 @@ import * as HomeActions from '../store/actions/HomeActions';
 import { MDBRow, MDBInputGroup, MDBInput, MDBIcon, MDBBtn, MDBDropdownItem, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu } from "mdb-react-ui-kit";
 
 
-// Trong component thì nên viết function.
 function Navbar({ handleChangeSearchPayload, searchPayload, handleSearch }) {
     const navigate = useNavigate()
     const dispatch = useDispatch();
@@ -29,11 +28,13 @@ function Navbar({ handleChangeSearchPayload, searchPayload, handleSearch }) {
         navigate('../customer/cart')
     }
 
+    //handle logout
     const handleLogout = () => {
         dispatch(AuthActions.logoutRequest())
         navigate("/login")
     }
 
+    //handle login
     const handleLogin = () => {
         navigate("/login")
     }

@@ -157,6 +157,13 @@ const Products = () => {
         return category ? category.categoryName : 'Category not found';
     };
 
+    //handle delete 
+const handleDeleteProduct = (productId) => {
+    if (window.confirm('Delete this product?')) {
+        dispatch(ProductActions.deleteProductRequest(productId));
+    }
+};
+
     return (
         <div className='bg-black'>
             <div className="d-flex justify-content-end mb-4">
@@ -197,7 +204,7 @@ const Products = () => {
                                 {/* edit icon */}
                                 <FaEdit style={{ color: '#df6474', cursor: 'pointer', fontSize: '18px', marginLeft: '8px' }} onClick={() => openEditModal(product)} />
                                 {/* delete icon */}
-                                <FaTrash onClick={() => dispatch(ProductActions.deleteProductRequest(product.productId))} style={{ color: '#df6474', cursor: 'pointer', fontSize: '18px', margin: '0 8px' }} />
+                                <FaTrash onClick={() => handleDeleteProduct(product.productId)} style={{ color: '#df6474', cursor: 'pointer', fontSize: '18px', margin: '0 8px' }} />
                             </td>
                         </tr>
                     ))}

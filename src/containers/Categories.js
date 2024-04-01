@@ -82,6 +82,14 @@ const Categories = () => {
         console.log("Please enter a valid category name.");
     }
 };
+//handle delete 
+const handleDeleteCategory = (categoryId) => {
+    if (window.confirm('Delete this category?')) {
+        dispatch(CategoryActions.deleteCategoryRequest(categoryId));
+    }
+};
+
+
 
 // View
 
@@ -115,7 +123,7 @@ const Categories = () => {
                                 {/* edit icon */}
                                 <FaEdit style={{color: 'df6474', cursor: 'pointer', fontSize: '18px', marginLeft: '8px'}}onClick={() => openEditModal(category)}/>
                                 {/* delete icon */}
-                                <FaTrash style={{ color: 'df6474', cursor: 'pointer', marginLeft: '8px' }} onClick={() => dispatch(CategoryActions.deleteCategoryRequest(category.id))}/>
+                                <FaTrash style={{ color: 'df6474', cursor: 'pointer', marginLeft: '8px' }} onClick={() => handleDeleteCategory(category.id)}/>
                                 
                             </td>
                         </tr>

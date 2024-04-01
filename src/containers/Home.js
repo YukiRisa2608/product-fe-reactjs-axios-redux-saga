@@ -70,6 +70,8 @@ const Home = () => {
 						<Card.Img variant="top" src={product.imgUrl} alt={product.productName} />
 						<Card.Body>
 							<Card.Title>{product.productName}</Card.Title>
+							<Card.Subtitle>Category Name: {product.categoryName}</Card.Subtitle>
+							<Card.Text>Description: {product.description}</Card.Text>
 							<Card.Text>Price: ${product.price}</Card.Text>
 							<Button style={{ backgroundColor: "#df6474" }} onClick={() => handleAddToCart(product)} ><FaCartPlus style={{ fontSize: '20px' }} /></Button>
 						</Card.Body>
