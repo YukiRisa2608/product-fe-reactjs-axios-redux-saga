@@ -52,7 +52,7 @@ export default class HttpService {
         return await axios.request({
             method: method,
             baseURL: "http://localhost:8081/api.com/v2/",
-            url: uri,
+            url: uri,//Khi hàm request được gọi, uri được nối với baseURL để tạo thành URL đầy đủ mà axios sử dụng để thực hiện yêu cầu. 
             headers: this.generateHttpHeaders(options.headers),
             params: options.params,
             data: options.body,

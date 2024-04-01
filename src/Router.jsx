@@ -22,7 +22,7 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: 'category',
-                        element: <Categories />,
+                        element: <Categories />, //container categories
                     },
                     {
                         path: 'product',

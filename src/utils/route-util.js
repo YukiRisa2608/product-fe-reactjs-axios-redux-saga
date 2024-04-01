@@ -7,6 +7,7 @@ export const isAuthenticated = ({ request }) => {
 
   console.log("request", request)
 
+  //chưa có token, chuyển về login
   if (
     !token &&
     !(request.url.includes("/login") || request.url.includes("/signup"))
@@ -15,6 +16,7 @@ export const isAuthenticated = ({ request }) => {
   }
 
 
+  //có token, về home or admin page
   if (
     token &&
     (request.url.includes("/login") || request.url.includes("/signup"))
@@ -25,6 +27,8 @@ export const isAuthenticated = ({ request }) => {
     }
 
     return redirect("/");
+
+    //logout, xóa token trong storage
   } else if (token) {
     let user = JSON.parse(storageService.get(AuthKeys.CURRENT_USER));
     if (AuthKeys.ROLE_USER === user.role[0] && request.url.includes("/admin")) {

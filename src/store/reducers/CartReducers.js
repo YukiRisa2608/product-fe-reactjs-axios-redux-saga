@@ -36,6 +36,7 @@ const cartReducer = (state = initialState, action) => {
         case CartTypes.PURCHASE_CART_REQUEST:
             return { ...state, loading: true };
         case CartTypes.PURCHASE_CART_SUCCESS:
+            console.log('cartttttt', { key:action.payload.data })
             return { ...state, loading: false, orderId: action.payload.data.id };
         case CartTypes.PURCHASE_CART_FAILURE:
             return { ...state, loading: false, error: action.payload };

@@ -24,7 +24,9 @@ export const updateQuantity = async (payload) => {
 export const purchase = async () => {
     try {
         let response = await new HttpService().post('customer/carts/purchase');
-        if (response.data.success) {
+        console.log({key: response.data})
+
+        if (response.data.status) {
             toast.success(response.data.message);
             return response.data;
         } else {

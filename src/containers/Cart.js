@@ -23,6 +23,8 @@ const Cart = () => {
     const [isBuy, setIsBuy] = useState(false);
 
     const [totalMoney, setTotalMoney] = useState(0)
+    let state = useSelector(state => state);
+    console.log( 'tesstttt', {state});
 
     useEffect(() => {
         dispatch(CartActions.getCartItemsRequest());
@@ -68,6 +70,7 @@ const Cart = () => {
     }
 
     useEffect(() => {
+        console.log(orderId + 'test cart');
         if (orderId && isBuy) {
             navigate(`/customer/order?id=${orderId}`)
         }

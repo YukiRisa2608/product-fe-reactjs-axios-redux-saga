@@ -27,6 +27,13 @@ class StorageService {
     return JSON.parse(this.localStorage.getItem(this.generateKey(key)));
   }
 
+
+
+
+
+
+
+  
   // sessionStorage
   setSession(key, value) {
     this.sessionStorage.setItem(this.generateKey(key), value);
